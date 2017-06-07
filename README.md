@@ -21,31 +21,31 @@ should have **delimiters** at the end of them.
 ---------------------------------------------------------------------------
 ## FAQ
 
-Q: My question isn't answered here, what now?
+**Q: My question isn't answered here, what now?**
 
 - A: Check the slides. Seriously, check it 100 times.
 
 
 
-Q: Checked 100 times, what now?!?!
+**Q: Checked 100 times, what now?!?!**
 
 - A: Check 1000 times.
 
 
 
-Q: My PC exploded cuz I checked the slides too much.
+**Q: My PC exploded cuz I checked the slides too much.**
 
 - A: Let's ask the teacher or her intern.
 
 
 
-Q: Should I put the fields with fixed size together?
+**Q: Should I put the fields with fixed size together?**
 
 - A: Yes. Put them at the beginning of the record.
 
 
 
-Q: But all the files have fixed number of fields.
+**Q: But all the files have fixed number of fields.**
 
 - A: Yea we know, just "pretend" they have not unless it is 
 'fixed number of fields' and we'll get 10...
