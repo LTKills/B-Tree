@@ -8,7 +8,7 @@ Our class is **Turma A**
 2. Reading input file and treating it
 3. 
 
-### To be implemented
+### TODO
 1. Generate the 3 output files (with Worst, Best or First-fit)
 
 2. Create one primary index **per output file** by the field *ticket*
@@ -17,11 +17,37 @@ Our class is **Turma A**
     the output files. e.g: file 1 generated -> index 1 generated -> file 2 
     generated -> index 2 generated...
     
-3. Logic remotion: user should type a value and we should
+3. **Logic remotion:** user should type a value and we should
   - Search the record in **each of the 3 files USING THE INDEX FILES**.
   - **Logic remove** the record (See FAQ for explaining).
   - Physically remove the record **from the index files** (See FAQ).
   - Display a message saying whether it was or not successfully removed. 
+  
+4. **Insertion:** insertion should be done using logic removed spaces
+  (dynamic reuse of space).
+  - For output file 1 (first-fit) WITHOUT ORDERING: list of removed
+  records with treatment of intern fragmentation WITHOUT concatenation
+  of available spaces.
+  
+  - For output file 2 (best-fit) WITH INCREASING ORDERING: list of removed
+  records with treatment of intern fragmentation WITHOUT concatenation
+  of available spaces.
+  
+  - For output file 2 (worst-fit) WITH DECREASING ORDERING: list of removed
+  records with treatment of intern fragmentation WITHOUT concatenation
+  of available spaces.
+  
+  - **Input:** the user should type the record to be inserted, then we should
+    insert the record IN EACH OF THE THREE FILES, update de INDEX FILE and 
+    display a message saying whether it was or not successfully inserted.
+    
+ 5. **Statistics about the index file:** This functionality should display
+ a TABLE that contains the *number of records* associated to each of the index
+ files.
+  (????? ASK THE INTERN ?????)
+  
+ 6. **Statistics about the removed records:**
+  (????? ASK THE INTERN ?????)
 
 ---------------------------------------------------------------------------
 ## File Structuring
@@ -51,6 +77,16 @@ Variable fields should have **size indicators** before them.
 Records should have **delimiters** at the end of them.
 
 ---------------------------------------------------------------------------
+## Restrictions
+- All files shoud be weitten and read in *binary mode*
+- Data should be read *field by field*
+- Index files shoud be in the disk, but they should be loaded in RAM
+  during the program's execution.
+- *NUSPs and names* should be in the code, otherwise we simply WILL
+  NOT GET ANY GRADE AT ALL.
+- The program should compile in *gcc 4.8.2* or newer.
+---------------------------------------------------------------------------
+
 ## FAQ
 
 **Q: My question isn't answered here, what now?**
@@ -112,3 +148,8 @@ will be equal. What is 'functionality 3'?**
 **Q: In the *logic remotion*, should I remove the record from all the files
   and from all the index files?**
 - A:
+
+
+
+**Q: Why in hell should I read data field by field instead of the whole record?**
+  - A: 
