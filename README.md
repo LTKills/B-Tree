@@ -79,7 +79,7 @@ Records should have **delimiters** at the end of them.
 
 ---------------------------------------------------------------------------
 ## Restrictions
-- All files shoud be weitten and read in *binary mode*
+- All files shoud be written and read in *binary mode*
 - Data should be read *field by field*
 - Index files shoud be in the disk, but they should be loaded in RAM
   during the program's execution.
