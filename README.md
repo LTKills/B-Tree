@@ -66,8 +66,8 @@ Our class is **Turma A**
 
   5. dominio
   6. nome
-  7. cidade
-  8. uf
+  7. uf
+  8. cidade
   
 
 **Fixed fields come all together on the beginning of the record**,
