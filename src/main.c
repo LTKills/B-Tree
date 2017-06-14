@@ -16,6 +16,7 @@
 #include <search.h>
 #include <statistics.h>
 
+
 // Prints menu for choosing main operation
 int print_main_menu() {
     int option = -1;
@@ -38,8 +39,9 @@ int print_main_menu() {
     return option;
 }
 
+
 /*Calls funtions and performs desired operation*/
-int make_operation(int option) {
+int choose_operation(int option) {
     switch(option) {
         case EXIT:
             printf("placeholder for exit\n");
@@ -73,7 +75,7 @@ int make_operation(int option) {
 int main(int argc, char *argv[]) {
     FILE *input, *outputWorst, *outputBest, *outputFirst;
     FILE *indexWorst, *indexBest, *indexFirst;
-    int option = -1, stop = GO;
+    int option = -1, stat = GO;
 
     // Treat not enough arguments case
     if(argc != NARGS) {
@@ -91,9 +93,9 @@ int main(int argc, char *argv[]) {
 
 
     // Execute until stop is required
-    while(stop != STOP) {
+    while(stat != STOP) {
         option = print_main_menu();
-        stop = make_operation(option);
+        stat = choose_operation(option);
     }
 
 

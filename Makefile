@@ -2,7 +2,7 @@ COMPILER=gcc
 SRC=./src/*.c
 INCLUDEDIR=./include/
 BINARY=t2
-INPUT=
+INPUT=input.csv
 
 all:
 	$(COMPILER) $(SRC) -I$(INCLUDEDIR) -o $(BINARY)
@@ -16,5 +16,7 @@ clear:
 # for denugging purposes only
 bug:
 	$(COMPILER) $(SRC) -I$(INCLUDEDIR) -o $(BINARY) -g
+	valgrind ./$(BINARY) $(INPUT)
+
 
 
