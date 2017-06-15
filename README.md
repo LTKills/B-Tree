@@ -10,7 +10,7 @@ Our class is **Turma A**
 4. Display statistics about the index files and about the removed records
 
 ### TODO
-1. Generate the 3 output files (with Worst, Best or First-fit)
+1. Generate the 3 output files (with Worst, Best or First-fit) [DONE]
 
 2. Create one primary index **per output file** by the field *ticket*
     - Note here that each file has it index (files 1, 2, 3 have respective 
