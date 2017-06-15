@@ -1,4 +1,6 @@
 /*Files Organization Project Part 2*/
+// Class A
+// Group Number 12
 
 /*==================Students==================*/
 
@@ -44,23 +46,26 @@ int print_main_menu() {
 int choose_operation(int option) {
     switch(option) {
         case EXIT:
-            printf("placeholder for exit\n");
             return STOP;
 
         case INSERTION:
             printf("placeholder for insert\n");
+//            insert();
             break;
 
         case REMOTION:
             printf("placeholder for remove\n");
+//            remove();
             break;
 
         case INDEX_STATISTICS:
             printf("placeholder for index stats\n");
+//            index_stats();
             break;
 
         case REMOVED_STATISTICS:
             printf("placeholder for remove stats\n");
+//            removed_stats();
             break;
 
         default:
@@ -88,6 +93,7 @@ int main(int argc, char *argv[]) {
     input = fopen(argv[INPUTFILE], "r");
 
     // Read input file and create output and index files
+    // utils.h
     initialize(input, &outputBest, &indexBest,
         &outputWorst, &indexWorst, &outputFirst, &indexFirst);
 
@@ -99,6 +105,8 @@ int main(int argc, char *argv[]) {
     }
 
 
+    // Close all files' descriptors
+    // utils.h
     close_files(input, outputBest, indexBest,
         outputWorst, indexWorst, outputFirst, indexFirst);
 

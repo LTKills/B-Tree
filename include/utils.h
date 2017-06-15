@@ -31,6 +31,11 @@ enum MAIN_OPTIONS {
 };
 
 
+enum FIELD_TYPE {
+    FIXED_FIELD,
+    VARIABLE_FIELD
+};
+
 /*Stop conditions*/
 enum STATS {
     STOP,
@@ -42,9 +47,7 @@ enum STATS {
 typedef struct {
     unsigned int ticket;
     /*These have FIXED_SIZE == 20*/
-    char *documento;
-    char *dataHoraCadastro;
-    char *dataHoraAtualiza;
+    char *documento, *dataHoraCadastro, *dataHoraAtualiza;
 
     /*These have variable size*/
     char *dominio, *nome, *cidade, *uf;
@@ -53,7 +56,10 @@ typedef struct {
 
 /*========== FUNCTIONS ==========*/
 
-void readInput(FILE *input, FILE *output, FILE *index);
+char *read_line(FILE *stream, char delim, char lineEnd, int fieldType);
+
+
+void read_input(FILE *input, FILE *output, FILE *index);
 
 
 void initialize(FILE *input, FILE **outputBest, FILE **indexBest,

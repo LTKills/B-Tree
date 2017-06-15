@@ -5,71 +5,80 @@
 
 
 /*Reads one line of input file until '\n' or delim*/
-char *readLine(FILE *stream, char delim, char line_end) {
-    int i = 0, realloc_count = 0; //realloc_count guarda a qtd de reallocs ja feitos
+char *read_line(FILE *stream, char delim, char lineEnd, int fieldType) {
+    int i = 0, reallocCount = 0; //reallocCount guarda a qtd de reallocs ja feitos
     char letter, *string;
     string = (char *) malloc(50 * sizeof(char));
     letter = fgetc(stream);
 
 
-    while (letter != delim && letter != '\n' && letter != EOF) {
+    while (letter != delim && letter != lineEnd && letter != EOF) {
         string[i] = letter;
         i++;
         letter = fgetc(stream);
-        if (i >= 50*(realloc_count +1)) {
-            string = (char *) realloc(string, 50 * (realloc_count +2)*sizeof(char));
-            realloc_count++;
+        if (i >= 50*(reallocCount +1)) {
+            string = (char *) realloc(string, 50 * (reallocCount +2)*sizeof(char));
+            reallocCount++;
         }
     }
     string = realloc(string, (i+1)*sizeof(char));
     string[i] = '\0';
+
+    // Fixes size of the field if it is a FIXED_SIZE field
+    if(fieldType == FIXED_FIELD) string = realloc(string, sizeof(char)*FIXED_SIZE);
     return string;
 }
 
 
 /*Reads an record from input file*/
-void readInputRecord(FILE *input, t_record *record) {
+void read_input_record(FILE *input, t_record *record) {
     char *temp;
 
-    record->dominio = readLine(input, FIELD_DELIM, LINE_END);
-    record->documento = readLine(input, FIELD_DELIM, LINE_END);
-    //printf("DOCUMENTO ABIGOS %s\n", record->documento);
-    record->nome = readLine(input, FIELD_DELIM, LINE_END);
-    record->uf = readLine(input, FIELD_DELIM, LINE_END);
-    record->cidade = readLine(input, FIELD_DELIM, LINE_END);
-    record->dataHoraCadastro = readLine(input, FIELD_DELIM, LINE_END);
-    record->dataHoraAtualiza = readLine(input, FIELD_DELIM, LINE_END);
-    temp = readLine(input, FIELD_DELIM, LINE_END);
+    record->dominio = read_line(input, FIELD_DELIM, LINE_END, VARIABLE_FIELD);
+    record->documento = read_line(input, FIELD_DELIM, LINE_END, FIXED_FIELD);
+    record->nome = read_line(input, FIELD_DELIM, LINE_END, VARIABLE_FIELD);
+    record->uf = read_line(input, FIELD_DELIM, LINE_END, VARIABLE_FIELD);
+    record->cidade = read_line(input, FIELD_DELIM, LINE_END, VARIABLE_FIELD);
+    record->dataHoraCadastro = read_line(input, FIELD_DELIM, LINE_END, FIXED_FIELD);
+    record->dataHoraAtualiza = read_line(input, FIELD_DELIM, LINE_END, FIXED_FIELD);
+    temp = read_line(input, FIELD_DELIM, LINE_END, VARIABLE_FIELD);
     record->ticket = atoi(temp);
-
-    //printf("=======================================================\n");
-    //printf("%s\n%s\n%s\n%s\n%s\n%s\n%s\n%d\n", record->dominio, record->documento, record->nome,
-    //        record->uf, record->cidade, record->dataHoraCadastro, record->dataHoraAtualiza,
-    //        record->ticket);
 
     free(temp);
 }
 
 
 /*Writes the record into the output file*/
-void writeOutputRecord(FILE *output, t_record *record) {
+void write_output_record(FILE *output, t_record *record) {
+    int sizeIndicator = 0;
 
     // Write fixed size fields
-    fwrite(&record->ticket, sizeof(long long unsigned int), 1, output);
+    fwrite(&record->ticket, sizeof(unsigned int), 1, output);
     fwrite(record->documento, sizeof(char), FIXED_SIZE, output);
     fwrite(record->dataHoraCadastro, sizeof(char), FIXED_SIZE, output);
     fwrite(record->dataHoraAtualiza, sizeof(char), FIXED_SIZE, output);
 
-    // Write variable sized fields
+    // Write variable sized fields with size indicators
+    sizeIndicator = strlen(record->dominio)+1;
+    fwrite(&sizeIndicator, sizeof(int), 1, output);
     fwrite(record->dominio, sizeof(char), strlen(record->dominio)+1, output);
+
+    sizeIndicator = strlen(record->nome)+1;
+    fwrite(&sizeIndicator, sizeof(int), 1, output);
     fwrite(record->nome, sizeof(char), strlen(record->nome)+1, output);
+
+    sizeIndicator = strlen(record->uf)+1;
+    fwrite(&sizeIndicator, sizeof(int), 1, output);
     fwrite(record->uf, sizeof(char), strlen(record->uf)+1, output);
+
+    sizeIndicator = strlen(record->cidade)+1;
+    fwrite(&sizeIndicator, sizeof(int), 1, output);
     fwrite(record->cidade, sizeof(char), strlen(record->cidade)+1, output);
 }
 
 
 /*Frees all the varible sized fields of the record*/
-void freeRecord(t_record *record) {
+void free_record(t_record *record) {
     free(record->documento);
     free(record->dataHoraCadastro);
     free(record->dataHoraAtualiza);
@@ -77,37 +86,40 @@ void freeRecord(t_record *record) {
     free(record->nome);
     free(record->cidade);
     free(record->uf);
+
+    free(record);
 }
 
 
 /*Uses the ticket to create the index file*/
-void createIndexFile(FILE *output, FILE *index) {
-    // placeholder
+void create_index_file(FILE *output, FILE *index) {
+    //
 }
 
 
 /*Reads input file and creates index and output files*/
-void readInput(FILE *input, FILE *output, FILE *index) {
-    t_record *record = malloc(sizeof(t_record));
+void read_input(FILE *input, FILE *output, FILE *index) {
+    t_record *record;
 
     // Creating output file
     while(!feof(input)) {
-        readInputRecord(input, record);
+        record = malloc(sizeof(t_record));
+        read_input_record(input, record);
 
         if(feof(input)) {
-            freeRecord(record);
-            free(record);
+            free_record(record);
             break;
         }
 
-        //writeOutputRecord(output, record);
-        freeRecord(record);
+        write_output_record(output, record);
+        free_record(record);
+
     }
 
     // Create index from output generated above
-    createIndexFile(output, index);
+    create_index_file(output, index);
 
-    free(record);
+    //free(record);
 }
 
 
@@ -117,15 +129,15 @@ void initialize(FILE *input, FILE **outputBest, FILE **indexBest,
 
     *outputBest = fopen("best.dat", "wb");
     *indexBest = fopen("best.idx", "wb");
-    readInput(input, *outputBest, *indexBest);
+    read_input(input, *outputBest, *indexBest);
 
     *outputWorst = fopen("worst.dat", "wb");
     *indexWorst = fopen("worst.idx", "wb");
-    readInput(input, *outputWorst, *indexWorst);
+    read_input(input, *outputWorst, *indexWorst);
 
     *outputFirst = fopen("first.dat", "wb");
     *indexFirst = fopen("first.idx", "wb");
-    readInput(input, *outputFirst, *indexFirst);
+    read_input(input, *outputFirst, *indexFirst);
 }
 
 
