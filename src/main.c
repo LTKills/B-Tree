@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
     FILE *indexWorst, *indexBest, *indexFirst;
     int option = -1, stat = GO;
 
-    // Treat not enough arguments case
+    // Treat not-enough-arguments case
     if(argc != NARGS) {
         printf("Wrong usage.\n");
         printf("usage: ./binary_name input_file\n");

@@ -2,6 +2,20 @@
 #include <stdio.h>
 #include <string.h>
 #include <utils.h>
+#include <quick.h>
+
+
+void swap(int **vec, int a, int b) {
+    int aux1 = vec[0][a];
+    int aux2 = vec[1][a];
+
+    vec[0][a] = vec[0][b];
+    vec[1][a] = vec[1][b];
+
+    vec[0][b] = aux1;
+    vec[1][b] = aux2;
+}
+
 
 
 /*Reads one line of input file until '\n' or delim*/
@@ -48,9 +62,27 @@ void read_input_record(FILE *input, t_record *record) {
 }
 
 
+/*Jumps to next record suposing that the ticket field has been read*/
+void get_next_record(FILE *output) {
+    int size = 0, i;
+    char test = 'a';
+
+
+    fseek(output, 3*FIXED_SIZE, SEEK_CUR); // jumps fixed sized fields
+
+    for(i = 0; i < 4; i++) {
+        fread(&size, sizeof(int), 1, output); // read size indicator
+        fseek(output, size, SEEK_CUR);        // jump field
+    }
+
+    fread(&test, sizeof(char), 1, output);
+}
+
+
 /*Writes the record into the output file*/
 void write_output_record(FILE *output, t_record *record) {
     int sizeIndicator = 0;
+    char recordDelim = '#';
 
     // Write fixed size fields
     fwrite(&record->ticket, sizeof(unsigned int), 1, output);
@@ -74,6 +106,8 @@ void write_output_record(FILE *output, t_record *record) {
     sizeIndicator = strlen(record->cidade)+1;
     fwrite(&sizeIndicator, sizeof(int), 1, output);
     fwrite(record->cidade, sizeof(char), strlen(record->cidade)+1, output);
+
+    fwrite(&recordDelim, sizeof(char), 1, output);
 }
 
 
@@ -93,13 +127,46 @@ void free_record(t_record *record) {
 
 /*Uses the ticket to create the index file*/
 void create_index_file(FILE *output, FILE *index) {
+<<<<<<< HEAD
+    int **tickets = calloc(2, sizeof(int*)), n = 0;
+
+    fseek(output, 0, SEEK_SET);
+    fseek(index, 0, SEEK_SET);
+
+    while(!feof(output)) {
+        tickets[0] = realloc(tickets[0], sizeof(int) * (n+1));
+        tickets[1] = realloc(tickets[1], sizeof(int) * (n+1));
+
+        tickets[1][n] = ftell(output);
+        fread(&tickets[0][n++], sizeof(int), 1, output);
+
+        if(feof(output)) break;
+
+        get_next_record(output);
+    }
+
+    quickSort(tickets, 0, n-1);
+
+    for(int i = 0; i < n-1; i++) {
+        printf("%d %d\n", tickets[0][i], tickets[1][i]);
+        fwrite(&tickets[0][i], sizeof(int), 1, index);
+        fwrite(&tickets[1][i], sizeof(int), 1, index);
+    }
+
+    free(tickets[0]);
+    free(tickets[1]);
+    free(tickets);
+=======
     
+>>>>>>> 9d39c3f6553fa3310b808da4e41761f918a11b00
 }
+
 
 
 /*Reads input file and creates index and output files*/
 void read_input(FILE *input, FILE *outputBest, FILE *outputWorst, FILE *outputFirst, FILE *index) {
     t_record *record;
+    int t = -2;
 
     // Creating output file
     while(!feof(input)) {
@@ -119,14 +186,35 @@ void read_input(FILE *input, FILE *outputBest, FILE *outputWorst, FILE *outputFi
 
     }
 
+<<<<<<< HEAD
+    // Create index from output generated above
+    create_index_file(output, index);
+
+=======
     //free(record);
+>>>>>>> 9d39c3f6553fa3310b808da4e41761f918a11b00
 }
+
 
 
 /*Reads input file and generates index and output files*/
 void initialize(FILE *input, FILE **outputBest, FILE **indexBest,
     FILE **outputWorst, FILE **indexWorst, FILE **outputFirst, FILE **indexFirst) {
+    int t = -2;
 
+<<<<<<< HEAD
+    *outputBest = fopen("best.dat", "w+");
+    *indexBest = fopen("best.idx", "w+");
+    read_input(input, *outputBest, *indexBest);
+
+    *outputWorst = fopen("worst.dat", "w+");
+    *indexWorst = fopen("worst.idx", "w+");
+    read_input(input, *outputWorst, *indexWorst);
+
+    *outputFirst = fopen("first.dat", "w+");
+    *indexFirst = fopen("first.idx", "w+");
+    read_input(input, *outputFirst, *indexFirst);
+=======
     *outputBest = fopen("best.dat", "wb");
     *indexBest = fopen("best.idx", "wb");
     
@@ -147,6 +235,7 @@ void initialize(FILE *input, FILE **outputBest, FILE **indexBest,
     create_index_file(*outputWorst, *indexWorst);
     create_index_file(*outputFirst, *indexFirst);
     
+>>>>>>> 9d39c3f6553fa3310b808da4e41761f918a11b00
 }
 
 
