@@ -56,6 +56,8 @@ typedef struct {
 
 /*========== FUNCTIONS ==========*/
 
+void swap(int **vec, int a, int b);
+
 char *read_line(FILE *stream, char delim, char lineEnd, int fieldType);
 
 
