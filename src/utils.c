@@ -114,6 +114,7 @@ void read_input(FILE *input, FILE *outputBest, FILE *outputWorst, FILE *outputFi
         write_output_record(outputBest, record);
         write_output_record(outputWorst, record);
         write_output_record(outputFirst, record);
+        
         free_record(record);
 
     }
@@ -128,15 +129,17 @@ void initialize(FILE *input, FILE **outputBest, FILE **indexBest,
 
     *outputBest = fopen("best.dat", "wb");
     *indexBest = fopen("best.idx", "wb");
-    read_input(input, *outputBest, *outputWorst, *outputFirst, *indexBest);
-
+    
     *outputWorst = fopen("worst.dat", "wb");
     *indexWorst = fopen("worst.idx", "wb");
     
-    // read_input(input, *outputWorst, *indexWorst);
-
     *outputFirst = fopen("first.dat", "wb");
     *indexFirst = fopen("first.idx", "wb");
+    
+    read_input(input, *outputBest, *outputWorst, *outputFirst, *indexBest);
+
+    // TODO: backup, delete later
+    // read_input(input, *outputWorst, *indexWorst);
     // read_input(input, *outputFirst, *indexFirst);
     
     // Create index from output generated above
