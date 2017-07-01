@@ -42,6 +42,7 @@ enum STATS {
 };
 
 
+// TODO: Mudar para inglês sá porra! ***
 /*File Structure*/
 typedef struct {
     unsigned int ticket;

@@ -1,11 +1,12 @@
 COMPILER=gcc
+FLAGS = -Wall
 SRC=./src/*.c
 INCLUDEDIR=./include/
 BINARY=t2
 INPUT=input.csv
 
 all:
-	$(COMPILER) $(SRC) -I$(INCLUDEDIR) -o $(BINARY)
+	$(COMPILER) $(FLAGS) $(SRC) -I$(INCLUDEDIR) -o $(BINARY)
 
 run:
 	./$(BINARY) $(INPUT)
