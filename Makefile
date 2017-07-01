@@ -17,6 +17,10 @@ clear:
 bug:
 	$(COMPILER) $(SRC) -I$(INCLUDEDIR) -o $(BINARY) -g
 	valgrind ./$(BINARY) $(INPUT)
+	
+# For Bruno's private use
+open:
+	gedit $(SRC) $(INCLUDEDIR)*.h
 
 
 
