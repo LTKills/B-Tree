@@ -127,7 +127,6 @@ void free_record(t_record *record) {
 
 /*Uses the ticket to create the index file*/
 void create_index_file(FILE *output, FILE *index) {
-<<<<<<< HEAD
     int **tickets = calloc(2, sizeof(int*)), n = 0;
 
     fseek(output, 0, SEEK_SET);
@@ -156,17 +155,13 @@ void create_index_file(FILE *output, FILE *index) {
     free(tickets[0]);
     free(tickets[1]);
     free(tickets);
-=======
-    
->>>>>>> 9d39c3f6553fa3310b808da4e41761f918a11b00
 }
 
 
 
 /*Reads input file and creates index and output files*/
-void read_input(FILE *input, FILE *outputBest, FILE *outputWorst, FILE *outputFirst, FILE *index) {
+void read_input(FILE *input, FILE *output, FILE *index) {
     t_record *record;
-    int t = -2;
 
     // Creating output file
     while(!feof(input)) {
@@ -178,21 +173,15 @@ void read_input(FILE *input, FILE *outputBest, FILE *outputWorst, FILE *outputFi
             break;
         }
 
-        write_output_record(outputBest, record);
-        write_output_record(outputWorst, record);
-        write_output_record(outputFirst, record);
-        
+        write_output_record(output, record);
+
         free_record(record);
 
     }
 
-<<<<<<< HEAD
     // Create index from output generated above
     create_index_file(output, index);
 
-=======
-    //free(record);
->>>>>>> 9d39c3f6553fa3310b808da4e41761f918a11b00
 }
 
 
@@ -200,9 +189,7 @@ void read_input(FILE *input, FILE *outputBest, FILE *outputWorst, FILE *outputFi
 /*Reads input file and generates index and output files*/
 void initialize(FILE *input, FILE **outputBest, FILE **indexBest,
     FILE **outputWorst, FILE **indexWorst, FILE **outputFirst, FILE **indexFirst) {
-    int t = -2;
 
-<<<<<<< HEAD
     *outputBest = fopen("best.dat", "w+");
     *indexBest = fopen("best.idx", "w+");
     read_input(input, *outputBest, *indexBest);
@@ -214,28 +201,7 @@ void initialize(FILE *input, FILE **outputBest, FILE **indexBest,
     *outputFirst = fopen("first.dat", "w+");
     *indexFirst = fopen("first.idx", "w+");
     read_input(input, *outputFirst, *indexFirst);
-=======
-    *outputBest = fopen("best.dat", "wb");
-    *indexBest = fopen("best.idx", "wb");
-    
-    *outputWorst = fopen("worst.dat", "wb");
-    *indexWorst = fopen("worst.idx", "wb");
-    
-    *outputFirst = fopen("first.dat", "wb");
-    *indexFirst = fopen("first.idx", "wb");
-    
-    read_input(input, *outputBest, *outputWorst, *outputFirst, *indexBest);
 
-    // TODO: backup, delete later
-    // read_input(input, *outputWorst, *indexWorst);
-    // read_input(input, *outputFirst, *indexFirst);
-    
-    // Create index from output generated above
-    create_index_file(*outputBest, *indexBest);
-    create_index_file(*outputWorst, *indexWorst);
-    create_index_file(*outputFirst, *indexFirst);
-    
->>>>>>> 9d39c3f6553fa3310b808da4e41761f918a11b00
 }
 
 

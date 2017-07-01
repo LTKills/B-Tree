@@ -59,9 +59,7 @@ void swap(int **vec, int a, int b);
 
 char *read_line(FILE *stream, char delim, char lineEnd, int fieldType);
 
-
-void read_input(FILE *input, FILE *outputBest, FILE *outputWorst, FILE *outputFirst, FILE *index);
-
+void read_input(FILE *input, FILE *output, FILE *index);
 
 void initialize(FILE *input, FILE **outputBest, FILE **indexBest,
     FILE **outputWorst, FILE **indexWorst, FILE **outputFirst, FILE **indexFirst);
