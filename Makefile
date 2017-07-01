@@ -6,12 +6,14 @@ BINARY=t2
 INPUT=input.csv
 
 all:
+	clear
 	$(COMPILER) $(FLAGS) $(SRC) -I$(INCLUDEDIR) -o $(BINARY)
 
 run:
+	clear
 	./$(BINARY) $(INPUT)
 
-clear:
+clean:
 	rm *.dat *.idx vgcore* $(BINARY)
 
 # for denugging purposes only

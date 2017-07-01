@@ -54,6 +54,17 @@ typedef struct {
 } t_record;
 
 
+typedef struct { 
+	FILE *outputBest, *indexBest, *outputWorst, *indexWorst, *outputFirst, *indexFirst;
+} t_files;
+
+
+
+typedef struct {
+	int head;
+} t_list;
+
+
 /*========== FUNCTIONS ==========*/
 
 void swap(int **vec, int a, int b);
@@ -62,9 +73,9 @@ char *read_line(FILE *stream, char delim, char lineEnd, int fieldType);
 
 void read_input(FILE *input, FILE *output, FILE *index);
 
-void initialize(FILE *input, FILE **outputBest, FILE **indexBest,
-    FILE **outputWorst, FILE **indexWorst, FILE **outputFirst, FILE **indexFirst);
+t_list *create_index_lists();
+
+t_files *initialize(FILE *input);
 
 
-void close_files(FILE *input, FILE *outputBest, FILE *indexBest,
-    FILE *outputWorst, FILE *indexWorst, FILE *outputFirst, FILE *indexFirst);
+void close_files(FILE *input, t_files *files);
