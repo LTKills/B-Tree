@@ -21,12 +21,13 @@ int main (int argc, char *argv[]) {
 	FILE *fp;
 	fp = fopen("worst.idx", "rb");
 	int ticket, count = 0;
-	
+
 	while (!feof(fp)) {
 		fread(&ticket, sizeof(int), 1, fp);
+        if(feof(fp)) break;
 		printf("%d: %d \n", count, ticket);
 		count++;
 	}
-		
+
 	return 0;
 }

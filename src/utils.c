@@ -163,10 +163,12 @@ void create_index_file(FILE *output, FILE *index) {
         get_next_record(output);
     }
 
-    quickSort(tickets, 0, n-2);
+    n--; // correct overflow
 
-    fwrite(tickets[0], sizeof(int), n-1, index);
-    fwrite(tickets[1], sizeof(int), n-1, index);
+    quickSort(tickets, 0, n-1);
+
+    fwrite(tickets[0], sizeof(int), n, index);
+    fwrite(tickets[1], sizeof(int), n, index);
 
     free(tickets[0]);
     free(tickets[1]);
