@@ -59,7 +59,7 @@ typedef struct {
 } t_record;
 
 
-typedef struct {
+typedef struct { 
 	FILE *outputBest, *indexBest, *outputWorst, *indexWorst, *outputFirst, *indexFirst;
 } t_files;
 
@@ -88,11 +88,23 @@ char *read_line(FILE *stream, char delim, char lineEnd, int fieldType);
 
 
 void read_input(FILE *input, FILE *output, FILE *index);
+
+<<<<<<< HEAD
+
+void initialize(FILE *input, FILE **outputBest, FILE **indexBest,
+    FILE **outputWorst, FILE **indexWorst, FILE **outputFirst, FILE **indexFirst);
+
+
+void close_files(FILE *input, FILE *outputBest, FILE *indexBest,
+    FILE *outputWorst, FILE *indexWorst, FILE *outputFirst, FILE *indexFirst);
+
+
+#endif
+=======
 t_list *create_index_lists();
 
 t_files *initialize(FILE *input);
 
 
 void close_files(FILE *input, t_files *files);
-
-#endif
+>>>>>>> 43724cfdd8521fc5a30637aeed293923d3413f8d

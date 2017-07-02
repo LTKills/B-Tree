@@ -81,8 +81,8 @@ int choose_operation(int option) {
 
 
 int main(int argc, char *argv[]) {
-    FILE *input, *outputWorst, *outputBest, *outputFirst;
-    FILE *indexWorst, *indexBest, *indexFirst;
+    FILE *input;
+    t_list *lists;
     int option = -1, stat = GO;
 
     // Treat not-enough-arguments case
@@ -94,12 +94,14 @@ int main(int argc, char *argv[]) {
     }
 
     input = fopen(argv[INPUTFILE], "r");
+    
+    
 
     // Read input file and create output and index files
-    // utils.h
-    initialize(input, &outputBest, &indexBest,
-        &outputWorst, &indexWorst, &outputFirst, &indexFirst);
-
+    // utils.h 
+    t_files *files = initialize(input);     
+        
+   lists = create_index_lists();
 
     // Execute until stop is required
     while(stat != STOP) {
@@ -110,9 +112,10 @@ int main(int argc, char *argv[]) {
 
     // Close all files' descriptors
     // utils.h
-    close_files(input, outputBest, indexBest,
-        outputWorst, indexWorst, outputFirst, indexFirst);
-
+    close_files(input, files);
+    
+    free(files);
+    free(lists);
 
     return 0;
 }

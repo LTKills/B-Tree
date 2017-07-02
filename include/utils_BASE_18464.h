@@ -2,14 +2,9 @@
 // Author: Cruz
 
 // This file holds important structs, defines and enums
-// as well as useful functions that we didn't  know where to put
+// as well as useful functions that we didn't  know where to put TODO: não gostei dessa coisa de não sabermos onde colocar
 
 /*=====================================================================*/
-
-#ifndef _UTILS_H_
-#define _UTILS_H_
-
-#include <stdbool.h>
 
 #define FIELD_DELIM ';'
 #define FIXED_SIZE 20
@@ -47,7 +42,6 @@ enum STATS {
 };
 
 
-// TODO: Mudar para inglês sá porra! ***
 /*File Structure*/
 typedef struct {
     unsigned int ticket;
@@ -59,40 +53,17 @@ typedef struct {
 } t_record;
 
 
-typedef struct {
-	FILE *outputBest, *indexBest, *outputWorst, *indexWorst, *outputFirst, *indexFirst;
-} t_files;
-
-
-
-typedef struct {
-	int head;
-} t_list;
-
-
 /*========== FUNCTIONS ==========*/
-
-void free_record(t_record *record);
-
-
-void print_record(t_record *record);
-
 
 void swap(int **vec, int a, int b);
 
-
-void read_input_record(FILE *input, t_record *record);
-
-
 char *read_line(FILE *stream, char delim, char lineEnd, int fieldType);
 
-
 void read_input(FILE *input, FILE *output, FILE *index);
-t_list *create_index_lists();
 
-t_files *initialize(FILE *input);
+void initialize(FILE *input, FILE **outputBest, FILE **indexBest,
+    FILE **outputWorst, FILE **indexWorst, FILE **outputFirst, FILE **indexFirst);
 
 
-void close_files(FILE *input, t_files *files);
-
-#endif
+void close_files(FILE *input, FILE *outputBest, FILE *indexBest,
+    FILE *outputWorst, FILE *indexWorst, FILE *outputFirst, FILE *indexFirst);

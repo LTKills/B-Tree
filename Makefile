@@ -1,16 +1,19 @@
 COMPILER=gcc
+FLAGS = -Wall
 SRC=./src/*.c
 INCLUDEDIR=./include/
 BINARY=t2
 INPUT=input.csv
 
 all:
-	$(COMPILER) $(SRC) -I$(INCLUDEDIR) -o $(BINARY)
+	clear
+	$(COMPILER) $(FLAGS) $(SRC) -I$(INCLUDEDIR) -o $(BINARY)
 
 run:
+	clear
 	./$(BINARY) $(INPUT)
 
-clear:
+clean:
 	rm *.dat *.idx vgcore* $(BINARY)
 
 # for denugging purposes only
