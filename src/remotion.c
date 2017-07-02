@@ -215,6 +215,10 @@ void remove_record(t_files *files, t_list *lists) {
 		if (ticket >= 0) break;
 		printf("Ticket must be a integer greater or equal then zero!!\n\n\n");
 	}
+	
+	
+	//TODO
+	printf("ticket is %d\n", ticket);
 
 	// Best fit
 	found = search_primary_index(files->indexBest, ticket, &byteOffset);

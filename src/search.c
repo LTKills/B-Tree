@@ -32,10 +32,13 @@ bool search_primary_index(FILE *index, int ticket, int *byteOffset) {
 	
 	end = count - 1;
 	start = 0;
-	
+
 	
 	while(end >= start) {
 		middle = (start+end)/2;
+		printf("start middle end \n");
+		printf("%d %d %d\n", start, middle, end);
+		
 		if(ticket > tickets[middle]) start = middle+1; // if query comes later
 		
 		else if(ticket < tickets[middle]) end = middle-1; 	// if query comes sooner
