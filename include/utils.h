@@ -80,6 +80,8 @@ typedef struct {
 
 /*========== FUNCTIONS ==========*/
 
+void write_output_record(FILE *output, t_record *record);
+
 void free_record(t_record *record);
 
 

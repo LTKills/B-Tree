@@ -96,10 +96,10 @@ int main(int argc, char *argv[]) {
     input = fopen(argv[INPUTFILE], "r");
 
     // Read input file and create output and index files
-    // utils.h 
-    t_files *files = initialize(input);     
-        
-   lists = create_index_lists();
+    // utils.h
+    t_files *files = initialize(input);
+
+    lists = create_index_lists();
 
     // Execute until stop is required
     while(stat != STOP) {
@@ -111,7 +111,7 @@ int main(int argc, char *argv[]) {
     // Close all files' descriptors
     // utils.h
     close_files(input, files);
-    
+
     free(files);
     free(lists);
 

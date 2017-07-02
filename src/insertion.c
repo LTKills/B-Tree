@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <utils.h>
+#include <search.h>
 #include <check.h>
 
 
@@ -10,11 +11,11 @@ t_record *print_insert_menu() {
     t_record *record = malloc(sizeof(t_record));
     char *temp = NULL;
 
-    printf("Insert field 'dominio': ", record->dominio);
+    printf("Insert field 'dominio': ");
     record->dominio = read_line(stdin, FIELD_DELIM, LINE_END, VARIABLE_FIELD);
 
     do {
-         printf("Insert field 'documento': ", record->documento);
+         printf("Insert field 'documento': ");
          record->documento = read_line(stdin, FIELD_DELIM, LINE_END, FIXED_FIELD);
     } while(!checkInputDocument(record->documento));
 
@@ -32,8 +33,10 @@ t_record *print_insert_menu() {
         record->dataHoraCadastro = read_line(stdin, FIELD_DELIM, LINE_END, FIXED_FIELD);
     } while(!checkInputDateAndTime(record->dataHoraCadastro)); // test
 
-    printf("Insert field 'dataHoraAtualiza': ");
-    record->dataHoraAtualiza = read_line(stdin, FIELD_DELIM, LINE_END, FIXED_FIELD);
+    do {
+        printf("Insert field 'dataHoraAtualiza': ");
+        record->dataHoraAtualiza = read_line(stdin, FIELD_DELIM, LINE_END, FIXED_FIELD);
+    } while(!checkInputDateAndTime(record->dataHoraAtualiza)); // test
 
     printf("Insert field 'ticket': ");
     temp = read_line(stdin, FIELD_DELIM, LINE_END, VARIABLE_FIELD);
@@ -41,6 +44,7 @@ t_record *print_insert_menu() {
 
     free(temp);
 
+    // For debugging purposes
     print_record(record);
 
     return record;
