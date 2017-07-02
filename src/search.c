@@ -42,7 +42,14 @@ bool search_primary_index(FILE *index, int ticket, int *byteOffset) {
 		
 		else if(ticket == tickets[middle]) { // if we found the wanted query
 			found = true;
-			*byteOffset = (limitTicketBO) + middle*sizeof(int);
+			*byteOffset = byteOffsets[middle];
+			
+			//TODO
+			printf("olha, achei o cara tá?\n");
+			printf("o ticket é %d e o seu byteOffset é %d\n", ticket, *byteOffset);
+			
+			free(tickets);
+			free(byteOffsets);
 			return found;
 		}      
 	}

@@ -150,7 +150,7 @@ void logical_remove_first(FILE *fp, int byteOffset, t_list *list) {
 }
 
 
-bool remove_index(FILE *fp, int ticket, char *file_name) {
+FILE *remove_index(FILE *fp, int ticket, char *file_name) {
 	int i, fileSize, limitTicketBO, count, index;
 	int *tickets, *byteOffsets;
 
@@ -174,16 +174,12 @@ bool remove_index(FILE *fp, int ticket, char *file_name) {
 	// Search for the index of the ticket
 	index = binary_search(tickets, 0, count-1, ticket);
 	
-	// The ticket was not found
-	if (index == INVALID) {
-		printf("That ticket was not found, aborting \n");
-		return false;
-	}
+	printf("index is %d\n", index);
 
 	// Shift the vector
-	for (i = index + 1; i < count; i++) {
-		tickets[i] = tickets[i-1];
-		byteOffsets[i] = byteOffsets[i-1];
+	for (i = index; i < count -1; i++) {
+		tickets[i] = tickets[i+1];
+		byteOffsets[i] = byteOffsets[i+1];
 	}
 
 	// Clear the file
@@ -191,14 +187,14 @@ bool remove_index(FILE *fp, int ticket, char *file_name) {
 	fp = fopen(file_name, "w"); // TODO pode dar bug porque o ponteiro pode ser outro que nao estava no fp antes, precisa testar
 
 	// Write the content back to the index file
-	fwrite(tickets, count-1, sizeof(int), fp);
-	fwrite(byteOffsets, count-1, sizeof(int), fp);
+	fwrite(tickets, sizeof(int), count-1, fp);
+	fwrite(byteOffsets, sizeof(int), count-1, fp);
 
 	// Free the vector
 	free(tickets);
 	free(byteOffsets);
 	
-	return true;
+	return fp;
 }
 
 
@@ -223,7 +219,7 @@ void remove_record(t_files *files, t_list *lists) {
 	// Best fit
 	found = search_primary_index(files->indexBest, ticket, &byteOffset);
 	if ( found ) {
-		remove_index(files->indexBest, ticket, "best.idx");
+		files->indexBest = remove_index(files->indexBest, ticket, "best.idx");
 		logical_remove_best_and_worst(files->outputBest, byteOffset, &(lists[BEST]), "best");
 		lists[BEST].removed++;
 	}
@@ -234,7 +230,7 @@ void remove_record(t_files *files, t_list *lists) {
 	// Worst fit
 	found = search_primary_index(files->indexWorst, ticket, &byteOffset);
 	if (found) {
-		remove_index(files->indexWorst, ticket, "worst.idx");
+		files->indexWorst = remove_index(files->indexWorst, ticket, "worst.idx");
 		logical_remove_best_and_worst(files->outputWorst, byteOffset, &(lists[WORST]), "worst");
 		lists[WORST].removed++;
 	}
@@ -245,8 +241,8 @@ void remove_record(t_files *files, t_list *lists) {
 	// First fit
 	found = search_primary_index(files->indexFirst, ticket, &byteOffset);
 	if (found) {
+		files->indexFirst = remove_index(files->indexFirst, ticket, "first.idx");	
 		logical_remove_first(files->outputFirst, byteOffset, &(lists[FIRST]));
-		remove_index(files->indexFirst, ticket, "first.idx");
 		lists[FIRST].removed++;
 	}
 	else

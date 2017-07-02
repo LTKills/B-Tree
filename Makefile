@@ -1,5 +1,6 @@
 COMPILER=gcc
 FLAGS = -Wall
+VALFLAGS = --leak-check=full
 SRC=./src/*.c
 INCLUDEDIR=./include/
 BINARY=t2
@@ -18,7 +19,7 @@ clean:
 # for denugging purposes only
 bug:
 	$(COMPILER) $(SRC) -I$(INCLUDEDIR) -o $(BINARY) -g
-	valgrind ./$(BINARY) $(INPUT)
+	valgrind $(VALFLAGS) ./$(BINARY) $(INPUT)
 	
 # For Bruno's private use
 open:
