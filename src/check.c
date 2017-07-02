@@ -10,7 +10,7 @@
 
 
 bool checkSize(char *string) {
-    return strlen(string) == FIXED_SIZE ? true : false;
+    return strlen(string) == FIXED_SIZE-1 ? true : false;
 }
 
 

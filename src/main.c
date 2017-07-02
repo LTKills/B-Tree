@@ -52,8 +52,7 @@ int choose_operation(int option, t_files *files, t_list *lists) {
             return STOP;
 
         case INSERTION:
-            printf("placeholder for insert\n");
-            insert(files);
+            insert(files, lists);
             break;
 
         case REMOTION:
