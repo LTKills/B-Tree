@@ -21,8 +21,8 @@
 
 // Prints menu for choosing main operation
 int print_main_menu() {
-    int option = -1;
     char *string = NULL;
+    int option = INVALID;
 
     while((option > 5) || (option < 1)) {
         printf("\n\n\n");
@@ -46,14 +46,14 @@ int print_main_menu() {
 
 
 /*Calls funtions and performs desired operation*/
-int choose_operation(int option) {
+int choose_operation(int option, t_files *files, t_list *lists) {
     switch(option) {
         case EXIT:
             return STOP;
 
         case INSERTION:
             printf("placeholder for insert\n");
-            insert(t_files *files);
+            insert(files);
             break;
 
         case REMOTION:
@@ -81,9 +81,9 @@ int choose_operation(int option) {
 
 
 int main(int argc, char *argv[]) {
-    FILE *input, *outputWorst, *outputBest, *outputFirst;
-    FILE *indexWorst, *indexBest, *indexFirst;
-    int option = -1, stat = GO;
+    FILE *input;
+    t_list *lists;
+    int option = INVALID, stat = GO;
 
     // Treat not-enough-arguments case
     if(argc != NARGS) {
@@ -97,22 +97,23 @@ int main(int argc, char *argv[]) {
 
     // Read input file and create output and index files
     // utils.h
-    initialize(input, &outputBest, &indexBest,
-        &outputWorst, &indexWorst, &outputFirst, &indexFirst);
+    t_files *files = initialize(input);
 
+    lists = create_index_lists();
 
     // Execute until stop is required
     while(stat != STOP) {
         option = print_main_menu();
-        stat = choose_operation(option);
+        stat = choose_operation(option, files, lists);
     }
 
 
     // Close all files' descriptors
     // utils.h
-    close_files(input, outputBest, indexBest,
-        outputWorst, indexWorst, outputFirst, indexFirst);
+    close_files(input, files);
 
+    free(files);
+    free(lists);
 
     return 0;
 }

@@ -8,6 +8,6 @@
 
 
 t_record *print_insert_menu();
-void insert();
+void insert(t_files *files);
 
 #endif

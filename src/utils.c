@@ -142,6 +142,7 @@ void free_record(t_record *record) {
 /*Uses the ticket to create the index file*/
 void create_index_file(FILE *output, FILE *index) {
     int **tickets = calloc(2, sizeof(int*)), n = 0;
+    int i;
 
     fseek(output, 0, SEEK_SET);
     fseek(index, 0, SEEK_SET);
@@ -160,8 +161,10 @@ void create_index_file(FILE *output, FILE *index) {
 
     quickSort(tickets, 0, n-2);
 
-    for(int i = 0; i < n-1; i++) {
+    //for(i = 0; i < n-1; i++) {
      //   printf("%d %d\n", tickets[0][i], tickets[1][i]);
+    for(i = 0; i < n-1; i++) {
+        printf("%d %d\n", tickets[0][i], tickets[1][i]);
         fwrite(&tickets[0][i], sizeof(int), 1, index);
         fwrite(&tickets[1][i], sizeof(int), 1, index);
     }
@@ -199,38 +202,57 @@ void read_input(FILE *input, FILE *output, FILE *index) {
 }
 
 
+t_list *create_index_lists() {
+	int i;
+	t_list *lists = malloc(3*sizeof(t_list));
+	for (i = 0; i < 3; i += 1)
+		lists[i].head = INVALID;
+	return lists;
+}
+
+
 
 /*Reads input file and generates index and output files*/
-void initialize(FILE *input, FILE **outputBest, FILE **indexBest,
-    FILE **outputWorst, FILE **indexWorst, FILE **outputFirst, FILE **indexFirst) {
+t_files *initialize(FILE *input) {
+	t_files *files = malloc(sizeof(t_files));
 
-    *outputBest = fopen("best.dat", "w+");
-    *indexBest = fopen("best.idx", "w+");
-    read_input(input, *outputBest, *indexBest);
+    files->outputBest = fopen("best.dat", "w+");
+    files->indexBest = fopen("best.idx", "w+");
+    read_input(input, files->outputBest, files->indexBest);
 
-    *outputWorst = fopen("worst.dat", "w+");
-    *indexWorst = fopen("worst.idx", "w+");
-    read_input(input, *outputWorst, *indexWorst);
+    files->outputWorst = fopen("worst.dat", "w+");
+    files->indexWorst = fopen("worst.idx", "w+");
+    read_input(input, files->outputWorst, files->indexWorst);
 
-    *outputFirst = fopen("first.dat", "w+");
-    *indexFirst = fopen("first.idx", "w+");
-    read_input(input, *outputFirst, *indexFirst);
+    files->outputFirst = fopen("first.dat", "w+");
+    files->indexFirst = fopen("first.idx", "w+");
+    read_input(input, files->outputFirst, files->indexFirst);
 
+	return files;
+}
+
+
+/* Gets the size of a given file */
+int get_file_size(FILE *file) {
+	int byteOffset;
+	fseek(file, 0, SEEK_END);
+	byteOffset = ftell(file);
+	rewind(file);
+	return byteOffset;
 }
 
 
 /*Closes files' descriptors*/
-void close_files(FILE *input, FILE *outputBest, FILE *indexBest,
-    FILE *outputWorst, FILE *indexWorst, FILE *outputFirst, FILE *indexFirst) {
+void close_files(FILE *input, t_files *files) {
 
     fclose(input);
 
-    fclose(outputBest);
-    fclose(indexBest);
+    fclose(files->outputBest);
+    fclose(files->indexBest);
 
-    fclose(outputWorst);
-    fclose(indexWorst);
+    fclose(files->outputWorst);
+    fclose(files->indexWorst);
 
-    fclose(outputFirst);
-    fclose(indexFirst);
+    fclose(files->outputFirst);
+    fclose(files->indexFirst);
 }

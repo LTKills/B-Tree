@@ -14,6 +14,7 @@
 #define FIELD_DELIM ';'
 #define FIXED_SIZE 20
 #define LINE_END '\n'
+#define INVALID -1
 
 /*Main function arguments*/
 enum ARGS {
@@ -35,6 +36,13 @@ enum MAIN_OPTIONS {
 };
 
 
+enum LIST_TYPES {
+	BEST,
+	WORST,
+	FIRST
+};
+
+
 enum FIELD_TYPE {
     FIXED_FIELD,
     VARIABLE_FIELD
@@ -47,6 +55,7 @@ enum STATS {
 };
 
 
+// TODO: Mudar para inglês sá porra! ***
 /*File Structure*/
 typedef struct {
     unsigned int ticket;
@@ -58,7 +67,20 @@ typedef struct {
 } t_record;
 
 
+typedef struct {
+	FILE *outputBest, *indexBest, *outputWorst, *indexWorst, *outputFirst, *indexFirst;
+} t_files;
+
+
+
+typedef struct {
+	int head;
+} t_list;
+
+
 /*========== FUNCTIONS ==========*/
+
+void write_output_record(FILE *output, t_record *record);
 
 void free_record(t_record *record);
 
@@ -77,13 +99,13 @@ char *read_line(FILE *stream, char delim, char lineEnd, int fieldType);
 
 void read_input(FILE *input, FILE *output, FILE *index);
 
+t_list *create_index_lists();
 
-void initialize(FILE *input, FILE **outputBest, FILE **indexBest,
-    FILE **outputWorst, FILE **indexWorst, FILE **outputFirst, FILE **indexFirst);
+t_files *initialize(FILE *input);
+
+int get_file_size(FILE *file);
 
 
-void close_files(FILE *input, FILE *outputBest, FILE *indexBest,
-    FILE *outputWorst, FILE *indexWorst, FILE *outputFirst, FILE *indexFirst);
-
+void close_files(FILE *input, t_files *files);
 
 #endif

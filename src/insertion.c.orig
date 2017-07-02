@@ -44,8 +44,12 @@ t_record *print_insert_menu() {
 
     free(temp);
 
+<<<<<<< HEAD
+//    print_record(record);
+=======
     // For debugging purposes
     print_record(record);
+>>>>>>> master
 
     return record;
 }
@@ -72,24 +76,24 @@ int calculate_size(t_record *record) {
 
 void insert(t_files *files, t_list *lists) {
     t_record *record;
-    int pos = -1, size = -1;
+    int size = -1, pos = -1;
 
 
     record = print_insert_menu();
     size = calculate_size(record);
 
     /*INSERT ON FIRST*/
-//    pos = search_insertion(files->outputFirst, 0, size);           // TODO: corrigir t_list
+    pos = search_insertion(files->outputFirst, 0, size);           // TODO: corrigir t_list
     fseek(files->outputFirst, pos, SEEK_SET);
     write_output_record(files->outputFirst, record);
 
     /*INSERT ON BEST*/
-//    pos = search_insertion(files->outputBest, 0, size);           // TODO: corrigir t_list
+    pos = search_insertion(files->outputBest, 0, size);           // TODO: corrigir t_list
     fseek(files->outputBest, pos, SEEK_SET);
     write_output_record(files->outputBest, record);
 
     /*INSERT ON WORST*/
-//    pos = search_insertion(files->outputWorst, 0, size);           // TODO: corrigir t_list
+    pos = search_insertion(files->outputWorst, 0, size);           // TODO: corrigir t_list
     fseek(files->outputWorst, pos, SEEK_SET);
     write_output_record(files->outputWorst, record);
 

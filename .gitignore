@@ -1,0 +1,12 @@
+best.dat
+first.dat
+t2
+worst.dat
+.gitignore~
+Makefile~
+include/search.h~
+src/main.c~
+src/search.c~
+src/utils.c~
+*.c~
+*.h~
