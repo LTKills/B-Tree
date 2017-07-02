@@ -10,9 +10,8 @@ all:
 	$(COMPILER) $(FLAGS) $(SRC) -I$(INCLUDEDIR) -o $(BINARY)
 
 run:
-	clear
 	./$(BINARY) $(INPUT)
-
+	clear
 clean:
 	rm *.dat *.idx vgcore* $(BINARY)
 
