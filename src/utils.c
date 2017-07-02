@@ -5,6 +5,20 @@
 #include <quick.h>
 
 
+/*Print record for testing purposes*/
+void print_record(t_record *record) {
+    printf("Dominio: %s\n", record->dominio);
+    printf("Documento: %s\n", record->documento);
+    printf("Nome: %s\n", record->nome);
+    printf("uf: %s\n", record->uf);
+    printf("Cidade: %s\n", record->cidade);
+    printf("DataHoraCadastro: %s\n", record->dataHoraCadastro);
+    printf("DataHoraAtualiza: %s\n", record->dataHoraCadastro);
+    printf("Ticket: %d\n", record->ticket);
+}
+
+
+/*Swap function for quickSort*/
 void swap(int **vec, int a, int b) {
     int aux1 = vec[0][a];
     int aux2 = vec[1][a];
@@ -144,10 +158,10 @@ void create_index_file(FILE *output, FILE *index) {
         get_next_record(output);
     }
 
-    quickSort(tickets, 0, n-1);
+    quickSort(tickets, 0, n-2);
 
     for(int i = 0; i < n-1; i++) {
-        printf("%d %d\n", tickets[0][i], tickets[1][i]);
+     //   printf("%d %d\n", tickets[0][i], tickets[1][i]);
         fwrite(&tickets[0][i], sizeof(int), 1, index);
         fwrite(&tickets[1][i], sizeof(int), 1, index);
     }

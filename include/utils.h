@@ -2,9 +2,14 @@
 // Author: Cruz
 
 // This file holds important structs, defines and enums
-// as well as useful functions that we didn't  know where to put TODO: não gostei dessa coisa de não sabermos onde colocar
+// as well as useful functions that we didn't  know where to put
 
 /*=====================================================================*/
+
+#ifndef _UTILS_H_
+#define _UTILS_H_
+
+#include <stdbool.h>
 
 #define FIELD_DELIM ';'
 #define FIXED_SIZE 20
@@ -55,11 +60,23 @@ typedef struct {
 
 /*========== FUNCTIONS ==========*/
 
+void free_record(t_record *record);
+
+
+void print_record(t_record *record);
+
+
 void swap(int **vec, int a, int b);
+
+
+void read_input_record(FILE *input, t_record *record);
+
 
 char *read_line(FILE *stream, char delim, char lineEnd, int fieldType);
 
+
 void read_input(FILE *input, FILE *output, FILE *index);
+
 
 void initialize(FILE *input, FILE **outputBest, FILE **indexBest,
     FILE **outputWorst, FILE **indexWorst, FILE **outputFirst, FILE **indexFirst);
@@ -67,3 +84,6 @@ void initialize(FILE *input, FILE **outputBest, FILE **indexBest,
 
 void close_files(FILE *input, FILE *outputBest, FILE *indexBest,
     FILE *outputWorst, FILE *indexWorst, FILE *outputFirst, FILE *indexFirst);
+
+
+#endif

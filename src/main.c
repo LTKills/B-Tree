@@ -22,6 +22,7 @@
 // Prints menu for choosing main operation
 int print_main_menu() {
     int option = -1;
+    char *string = NULL;
 
     while((option > 5) || (option < 1)) {
         printf("\n\n\n");
@@ -35,7 +36,9 @@ int print_main_menu() {
         printf("=                                      =\n");
         printf("========================================\n");
         printf("\n\n");
-        scanf("%d", &option);
+        string = read_line(stdin, '\n', '\n', VARIABLE_FIELD);
+        option = atoi(string);
+        free(string);
     }
 
     return option;
@@ -50,7 +53,7 @@ int choose_operation(int option) {
 
         case INSERTION:
             printf("placeholder for insert\n");
-//            insert();
+            insert();
             break;
 
         case REMOTION:
