@@ -98,6 +98,7 @@ char *read_line(FILE *stream, char delim, char lineEnd, int fieldType);
 
 
 void read_input(FILE *input, FILE *output, FILE *index);
+
 t_list *create_index_lists();
 
 t_files *initialize(FILE *input);
