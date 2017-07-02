@@ -67,7 +67,7 @@ int print_removed_stats_table(t_list *lists) {
     char *string = NULL;
     printf("================================REMOVED STATISTICS=================================\n");
     printf("                        Best-Fit\tWorst-Fit\tFirst-Fit\n");
-//    printf("%d\t\t\t%d\t\t\t%d\n\n\n", lists[BEST].removed, lists[WORST].removed, lists[FIRST].removed);
+    printf("Nomber of records removed  %d\t\t%d\t\t%d\n\n\n", lists[BEST].removed, lists[WORST].removed, lists[FIRST].removed);
     printf("--------------OPTIONS---------------\n");
     printf("0. Display graphical Best-Fit list\n");
     printf("1. Display graphical Worst-Fit list\n");
@@ -96,7 +96,7 @@ int print_index_stats_menu(int nfirst, int nworst, int nbest,
         printf("=================================INDEX STATISTICS=================================\n");
         printf("                        Best-Fit\tWorst-Fit\tFirst-Fit\n");
         printf("                                                                                  \n");
-        printf(" Number of Records         %d\t\t%d\t\t%d\n", nbest, nworst, nfirst);
+        printf(" Number of Records         %d\t\t%d\t\t%d\n", nbest/2, nworst/2, nfirst/2);
         printf("                                                                                  \n");
         printf(" Entry (Ticket)            %d\t\t%d\t\t%d\n", best[0][counter], worst[0][counter], first[0][counter]);
         printf("                                                                                  \n");

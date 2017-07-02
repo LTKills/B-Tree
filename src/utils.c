@@ -50,10 +50,15 @@ char *read_line(FILE *stream, char delim, char lineEnd, int fieldType) {
         }
     }
     string = realloc(string, (i+1)*sizeof(char));
-    string[i] = '\0';
+    string[i++] = '\0';
 
     // Fixes size of the field if it is a FIXED_SIZE field
-    if(fieldType == FIXED_FIELD) string = realloc(string, sizeof(char)*FIXED_SIZE);
+    if(fieldType == FIXED_FIELD){
+        string = realloc(string, sizeof(char)*FIXED_SIZE);
+        while(i < FIXED_SIZE) {
+            string[i++] = 0;
+        }
+    }
     return string;
 }
 
@@ -99,7 +104,7 @@ void write_output_record(FILE *output, t_record *record) {
     char recordDelim = '#';
 
     // Write fixed size fields
-    fwrite(&record->ticket, sizeof(unsigned int), 1, output);
+    fwrite(&record->ticket, sizeof(int), 1, output);
     fwrite(record->documento, sizeof(char), FIXED_SIZE, output);
     fwrite(record->dataHoraCadastro, sizeof(char), FIXED_SIZE, output);
     fwrite(record->dataHoraAtualiza, sizeof(char), FIXED_SIZE, output);
