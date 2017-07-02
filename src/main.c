@@ -53,7 +53,7 @@ int choose_operation(int option) {
 
         case INSERTION:
             printf("placeholder for insert\n");
-            insert();
+            insert(t_files *files);
             break;
 
         case REMOTION:
