@@ -8,4 +8,5 @@ include/search.h~
 src/main.c~
 src/search.c~
 src/utils.c~
+*.c~
 

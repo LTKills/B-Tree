@@ -21,7 +21,7 @@
 
 // Prints menu for choosing main operation
 int print_main_menu() {
-    int option = -1;
+    int option = INVALID;
 
     while((option > 5) || (option < 1)) {
         printf("\n\n\n");
@@ -43,7 +43,7 @@ int print_main_menu() {
 
 
 /*Calls funtions and performs desired operation*/
-int choose_operation(int option) {
+int choose_operation(int option, t_files *files, t_list *lists) {
     switch(option) {
         case EXIT:
             return STOP;
@@ -80,7 +80,7 @@ int choose_operation(int option) {
 int main(int argc, char *argv[]) {
     FILE *input;
     t_list *lists;
-    int option = -1, stat = GO;
+    int option = INVALID, stat = GO;
 
     // Treat not-enough-arguments case
     if(argc != NARGS) {
@@ -91,8 +91,6 @@ int main(int argc, char *argv[]) {
     }
 
     input = fopen(argv[INPUTFILE], "r");
-    
-    
 
     // Read input file and create output and index files
     // utils.h 
@@ -103,7 +101,7 @@ int main(int argc, char *argv[]) {
     // Execute until stop is required
     while(stat != STOP) {
         option = print_main_menu();
-        stat = choose_operation(option);
+        stat = choose_operation(option, files, lists);
     }
 
 
