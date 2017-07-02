@@ -31,6 +31,13 @@ enum MAIN_OPTIONS {
 };
 
 
+enum LIST_TYPES {
+	BEST,
+	WORST,
+	FIRST
+};
+
+
 enum FIELD_TYPE {
     FIXED_FIELD,
     VARIABLE_FIELD
