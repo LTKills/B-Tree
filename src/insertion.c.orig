@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <utils.h>
-#include <quick.h>
 #include <search.h>
 #include <check.h>
 
@@ -75,105 +74,41 @@ int calculate_size(t_record *record) {
 
 void insert(t_files *files, t_list *lists) {
     t_record *record;
-    int **first = calloc(2, sizeof(int*)),
-        **best = calloc(2, sizeof(int*)),
-        **worst = calloc(2, sizeof(int*));
-   int pos = -1, size, nfirst, nbest, nworst, i;
+    int pos = -1, size;
 
 
     record = print_insert_menu();
     size = calculate_size(record);
 
-
-
-    /*INSERT ON OUTPUT FILES*/
-    /*FIRST*/
+    /*INSERT ON FIRST*/
+<<<<<<< HEAD
     pos = search_insertion(files->outputFirst, lists, size);
+=======
+    pos = search_insertion(files->outputFirst, lists, size);           // TODO: corrigir t_list
+>>>>>>> c70a4f803f691e8fdd22e01ed4cf67975a909211
     fseek(files->outputFirst, pos, SEEK_SET);
     write_output_record(files->outputFirst, record);
 
-    /*BEST*/
+    /*INSERT ON BEST*/
+<<<<<<< HEAD
     pos = search_insertion(files->outputBest, lists, size);
     fseek(files->outputBest, pos, SEEK_SET);
     write_output_record(files->outputBest, record);
 
-    /*WORST*/
+    /*INSERT ON WORST*/
     pos = search_insertion(files->outputWorst, lists, size);
     fseek(files->outputWorst, pos, SEEK_SET);
     write_output_record(files->outputWorst, record);
 
+=======
+	pos = search_insertion(files->outputBest, lists, size);           // TODO: corrigir t_list
+	fseek(files->outputBest, pos, SEEK_SET);
+    write_output_record(files->outputBest, record);
 
-
-    /*INSERT ON INDEX FILES*/
-    /*Go to end of file and figure how many integers there are*/
-    fseek(files->indexFirst, 0, SEEK_END);
-    nfirst = ftell(files->indexFirst)/sizeof(int);
-
-    fseek(files->indexWorst, 0, SEEK_END);
-    nworst = ftell(files->indexWorst)/sizeof(int);
-
-    fseek(files->indexBest, 0, SEEK_END);
-    nbest = ftell(files->indexBest)/sizeof(int);
-
-
-    /*Go back to beginning of the files and read the data*/
-    fseek(files->indexFirst, 0, SEEK_SET);
-    fseek(files->indexWorst, 0, SEEK_SET);
-    fseek(files->indexBest, 0, SEEK_SET);
-
-    first[0] = malloc(sizeof(int)*((nfirst/2) + 1));
-    first[1] = malloc(sizeof(int)*((nfirst/2) + 1));
-
-    worst[0] = malloc(sizeof(int)*((nworst/2) + 1));
-    worst[1] = malloc(sizeof(int)*((nworst/2) + 1));
-
-    best[0] = malloc(sizeof(int)*((nbest/2) + 1));
-    best[1] = malloc(sizeof(int)*((nbest/2) + 1));
-
-    fread(first[0], sizeof(int), nfirst/2, files->indexFirst);
-    fread(first[1], sizeof(int), nfirst/2, files->indexFirst);
-    first[0][nfirst/2] = record->ticket;
-    first[1][nfirst/2] = pos;
-
-    fread(worst[0], sizeof(int), nworst/2, files->indexWorst);
-    fread(worst[1], sizeof(int), nworst/2, files->indexWorst);
-    worst[0][nworst/2] = record->ticket;
-    worst[1][nworst/2] = pos;
-
-    fread(best[0], sizeof(int), nbest/2, files->indexBest);
-    fread(best[1], sizeof(int), nbest/2, files->indexBest);
-    best[0][nbest/2] = record->ticket;
-    best[1][nbest/2] = pos;
-
-    quickSort(first, 0, nfirst/2);
-    quickSort(worst, 0, nworst/2);
-    quickSort(best, 0, nbest/2);
-
-
-    /*Go back to the beginning again and write data*/
-    fseek(files->indexFirst, 0, SEEK_SET);
-    fseek(files->indexWorst, 0, SEEK_SET);
-    fseek(files->indexBest, 0, SEEK_SET);
-
-    fwrite(first[0], sizeof(int), nfirst/2 + 1, files->indexFirst);
-    fwrite(first[1], sizeof(int), nfirst/2 + 1, files->indexFirst);
-
-    fwrite(best[0], sizeof(int), nbest/2 + 1, files->indexBest);
-    fwrite(best[1], sizeof(int), nbest/2 + 1, files->indexBest);
-
-    fwrite(worst[0], sizeof(int), nworst/2 + 1, files->indexWorst);
-    fwrite(worst[1], sizeof(int), nworst/2 + 1, files->indexWorst);
-
-
-    /*Deallocate*/
-    for(i = 0; i < 2; i++) {
-        free(first[i]);
-        free(best[i]);
-        free(worst[i]);
-    }
-
-    free(first);
-    free(best);
-    free(worst);
+    /*INSERT ON WORST*/
+    pos = search_insertion(files->outputWorst, lists, size);           // TODO: corrigir t_list
+    fseek(files->outputWorst, pos, SEEK_SET);
+    write_output_record(files->outputWorst, record);
+>>>>>>> c70a4f803f691e8fdd22e01ed4cf67975a909211
     free_record(record);
 }
