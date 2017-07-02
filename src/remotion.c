@@ -34,8 +34,8 @@ void logical_remove(FILE *fp, int pos, int top) {
 	fseek(fp, pos, SEEK_SET);
 
 	// Mark the record as invalid
-	fwrite(&invalid, sizeof(int), 1, fp);	
-	
+	fwrite(&invalid, sizeof(int), 1, fp);
+
 	// Mark the record's size
 	fwrite(&counter, sizeof(int), 1, fp);
 
@@ -108,7 +108,7 @@ void remove_record(t_files *files, t_list *list) {
 	remove_index(files->indexWorst, ticket, "worst.idx");
 	// list->worst = byteOffset;
 
-	// First fit 
+	// First fit
 	// byteOffset = busca_no_arquivo_de_indice_first
 	// logial_remove(files->outputFirst, byteOffset, list->first);
 	remove_index(files->indexFirst, ticket, "first.idx");
