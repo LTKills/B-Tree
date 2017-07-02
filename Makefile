@@ -1,5 +1,5 @@
 COMPILER=gcc
-FLAGS = #-Wall
+FLAGS = -Wall
 SRC=./src/*.c
 INCLUDEDIR=./include/
 BINARY=t2
@@ -24,6 +24,10 @@ bug:
 # For Bruno's private use
 open:
 	gedit $(SRC) $(INCLUDEDIR)*.h
-
+	
+test:
+	clear
+	$(COMPILER) test.c -o teste
+	./teste
 
 

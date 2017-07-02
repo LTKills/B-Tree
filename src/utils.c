@@ -142,7 +142,6 @@ void free_record(t_record *record) {
 /*Uses the ticket to create the index file*/
 void create_index_file(FILE *output, FILE *index) {
     int **tickets = calloc(2, sizeof(int*)), n = 0;
-    int i;
 
     fseek(output, 0, SEEK_SET);
     fseek(index, 0, SEEK_SET);

@@ -103,9 +103,7 @@ int logical_remove_worst_fit_search(FILE *fp, int byteOffset, t_list *list) {
 
 
 void logical_remove_best_and_worst(FILE *fp, int byteOffset, t_list *list, char *type) {
-	int listOffset, regSize, next, invalid = INVALID;
-	
-	regSize = get_register_size(fp, byteOffset);
+	int listOffset, next;
 	
 	// If the current linked list is empty
 	if (list->head == INVALID) { 
