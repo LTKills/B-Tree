@@ -59,17 +59,18 @@ bool search_primary_index(FILE *index, int ticket, int *byteOffset) {
 
 
 
-int search_insertion(FILE *output, t_list list, int neededSize) {
+int search_insertion(FILE *output, t_list *list, int neededSize) {
 	int pos, availableSize, next;
 	
 	// If there is no space to be reused, insert at the end of the data file
-	if (list.head	== INVALID)
+	if (list->head == INVALID)
 		return get_file_size(output);
 	
-	pos = list.head;
+	pos = list->head;
 	
 	while (pos != INVALID) {
-		fseek(output, pos + 1, SEEK_END); // "+1" so we can skip over "*"
+		// "sizeof(int)" so we can skip over "-1" as a int
+		fseek(output, pos + sizeof(int), SEEK_SET); 
 		fread(&availableSize, sizeof(int), 1, output);
 		fread(&next, sizeof(int), 1, output);
 		

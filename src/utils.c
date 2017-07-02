@@ -232,11 +232,36 @@ t_files *initialize(FILE *input) {
 }
 
 
+/* Gets the size of a given register that starts at byteOffset */
+int get_register_size(FILE *fp, int byteOffset) {
+	char aux = 'a';
+	int counter = 0;
+
+	// Go to 'byteOffset'
+	fseek(fp, byteOffset, SEEK_SET);
+
+	// Go to the end of the record to count it's size
+	while (!feof(fp) && aux != '#') {
+		fread(&aux, sizeof(char), 1, fp);
+		if (!feof(fp)) counter++;
+	}
+	
+	//TODO: debugging only
+	if (counter == 0)
+		printf("GEEEEEEEEEEEEEEEEEEEEEEEEENTE DEU RUIM, UTILS.C, GET_REGISTER_SIZE");
+	
+	
+	return counter;
+	
+}
+
+
+
 /* Gets the size of a given file */
 int get_file_size(FILE *file) {
 	int byteOffset;
-	fseek(file, 0, SEEK_END);
-	byteOffset = ftell(file);
+	fseek(file, 0, SEEK_END); // Go to the end of the file
+	byteOffset = ftell(file); // Get its size
 	rewind(file);
 	return byteOffset;
 }

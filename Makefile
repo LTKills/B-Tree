@@ -1,5 +1,5 @@
 COMPILER=gcc
-FLAGS = -Wall
+FLAGS = #-Wall
 SRC=./src/*.c
 INCLUDEDIR=./include/
 BINARY=t2

@@ -45,7 +45,7 @@ t_record *print_insert_menu() {
     free(temp);
 
     // For debugging purposes
-    //print_record(record);
+    // print_record(record);
     //
     printf("\n\n");
 

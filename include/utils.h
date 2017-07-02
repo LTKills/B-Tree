@@ -105,6 +105,7 @@ t_files *initialize(FILE *input);
 
 int get_file_size(FILE *file);
 
+int get_register_size(FILE *fp, int byteOffset);
 
 void close_files(FILE *input, t_files *files);
 
