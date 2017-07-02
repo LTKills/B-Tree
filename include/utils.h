@@ -14,6 +14,7 @@
 #define FIELD_DELIM ';'
 #define FIXED_SIZE 20
 #define LINE_END '\n'
+#define INVALID -1
 
 /*Main function arguments*/
 enum ARGS {
@@ -32,6 +33,13 @@ enum MAIN_OPTIONS {
     REMOVED_STATISTICS,
     EXIT,
     NOPTIONS
+};
+
+
+enum LIST_TYPES {
+	BEST,
+	WORST,
+	FIRST
 };
 
 
@@ -91,6 +99,8 @@ void read_input(FILE *input, FILE *output, FILE *index);
 t_list *create_index_lists();
 
 t_files *initialize(FILE *input);
+
+int get_file_size(FILE *file);
 
 
 void close_files(FILE *input, t_files *files);

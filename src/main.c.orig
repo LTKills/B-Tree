@@ -21,8 +21,12 @@
 
 // Prints menu for choosing main operation
 int print_main_menu() {
+<<<<<<< HEAD
+    int option = -1;
     char *string = NULL;
+=======
     int option = INVALID;
+>>>>>>> 9efde578f2d45a65d666707b7cf47254fcf329b8
 
     while((option > 5) || (option < 1)) {
         printf("\n\n\n");
@@ -53,7 +57,7 @@ int choose_operation(int option, t_files *files, t_list *lists) {
 
         case INSERTION:
             printf("placeholder for insert\n");
-//            insert();
+            insert();
             break;
 
         case REMOTION:

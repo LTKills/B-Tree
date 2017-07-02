@@ -206,7 +206,7 @@ t_list *create_index_lists() {
 	int i;
 	t_list *lists = malloc(3*sizeof(t_list));
 	for (i = 0; i < 3; i += 1)
-		lists[i].head = -1;
+		lists[i].head = INVALID;
 	return lists;
 }
 
@@ -229,6 +229,16 @@ t_files *initialize(FILE *input) {
     read_input(input, files->outputFirst, files->indexFirst);
 
 	return files;
+}
+
+
+/* Gets the size of a given file */
+int get_file_size(FILE *file) {
+	int byteOffset;
+	fseek(file, 0, SEEK_END);
+	byteOffset = ftell(file);
+	rewind(file);
+	return byteOffset;
 }
 
 
