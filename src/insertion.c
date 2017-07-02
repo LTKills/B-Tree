@@ -11,7 +11,7 @@ t_record *print_insert_menu() {
     t_record *record = malloc(sizeof(t_record));
     char *temp = NULL;
 
-    printf("Insert field 'dominio': ");
+    printf("\n\nInsert field 'dominio': ");
     record->dominio = read_line(stdin, FIELD_DELIM, LINE_END, VARIABLE_FIELD);
 
     do {
@@ -45,7 +45,9 @@ t_record *print_insert_menu() {
     free(temp);
 
     // For debugging purposes
-    print_record(record);
+    //print_record(record);
+    //
+    printf("\n\n");
 
     return record;
 }
@@ -79,17 +81,17 @@ void insert(t_files *files, t_list *lists) {
     size = calculate_size(record);
 
     /*INSERT ON FIRST*/
-//    pos = search_insertion(files->outputFirst, 0, size);           // TODO: corrigir t_list
+    pos = search_insertion(files->outputFirst, 0, size);           // TODO: corrigir t_list
     fseek(files->outputFirst, pos, SEEK_SET);
     write_output_record(files->outputFirst, record);
 
     /*INSERT ON BEST*/
-//    pos = search_insertion(files->outputBest, 0, size);           // TODO: corrigir t_list
+    pos = search_insertion(files->outputBest, 1, size);           // TODO: corrigir t_list
     fseek(files->outputBest, pos, SEEK_SET);
     write_output_record(files->outputBest, record);
 
     /*INSERT ON WORST*/
-//    pos = search_insertion(files->outputWorst, 0, size);           // TODO: corrigir t_list
+    pos = search_insertion(files->outputWorst, 2, size);           // TODO: corrigir t_list
     fseek(files->outputWorst, pos, SEEK_SET);
     write_output_record(files->outputWorst, record);
 
