@@ -1,9 +1,86 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <utils.h>
 #include <statistics.h>
 
+// invalid      size        BO of the next
+// (int)        (int)           ()
+//
 
+
+
+
+void print_list_node(int byteOffset, int size) {
+    printf("##\tByte Offset: %d\t##\tSize: %d\t##\t----->", byteOffset, size);
+}
+
+
+/*Prints linked list graphically*/
+void print_graphical_list(t_files *files, t_list *lists, int op) {
+    int pos = lists[op].head, size = -1, lineLimit = 0, next = -1;
+    FILE *fp;
+
+    // Choose output file
+    switch(op) {
+        case BEST:
+            fp = files->outputBest;
+            break;
+
+        case FIRST:
+            fp = files->outputFirst;
+            break;
+
+        case WORST:
+            fp = files->outputWorst;
+            break;
+    }
+
+
+    // Go to the given position
+    fseek(fp, pos, SEEK_SET);
+
+    // pos starts at the beginning of the list
+
+    while (pos != INVALID ) {
+//        next = next_element(fp, pos, &size);
+
+
+        print_list_node(pos, size);
+        if(lineLimit == 0) printf("\n\n");
+
+
+        // if the next element has a smaller regsize, go to it
+        if(next != INVALID) pos = next;
+
+        lineLimit++;
+        lineLimit %= 10;
+    }
+
+}
+
+
+/**/
+int print_removed_stats_table(t_list *lists) {
+    int op = -1;
+    char *string = NULL;
+    printf("================================REMOVED STATISTICS=================================\n");
+    printf("                        Best-Fit\tWorst-Fit\tFirst-Fit\n");
+//    printf("%d\t\t\t%d\t\t\t%d\n\n\n", lists[BEST].removed, lists[WORST].removed, lists[FIRST].removed);
+    printf("--------------OPTIONS---------------\n");
+    printf("0. Display graphical Best-Fit list\n");
+    printf("1. Display graphical Worst-Fit list\n");
+    printf("2. Display graphical First-Fit list\n");
+    printf("3. Exit\n");
+
+    string = read_line(stdin, '\n', '\n', VARIABLE_FIELD);
+    op = atoi(string);
+
+    if(op > 3 || op < 0) printf("\n\n\n# Invalid option #\n\n\n");
+    free(string);
+
+    return op;
+}
 
 
 /*Displays menu for showing index statistics*/
@@ -15,7 +92,7 @@ int print_index_stats_menu(int nfirst, int nworst, int nbest,
 
 
         printf("\n\n\n");
-        printf("=================================INDEX=STATISTICS=================================\n");
+        printf("=================================INDEX STATISTICS=================================\n");
         printf("                        Best-Fit\tWorst-Fit\tFirst-Fit\n");
         printf("                                                                                  \n");
         printf(" Number of Records         %d\t\t%d\t\t%d\n", nbest, nworst, nfirst);
@@ -109,5 +186,19 @@ void index_stats(t_files *files, t_list *lists) {
 
 /*Statistics about the removed records*/
 void removed_stats(t_files *files, t_list *lists) {
+    int op = -1;
+
+    do {
+        op = print_removed_stats_table(lists);
+    } while(op < 0 || op > 3);
+
+    if(op == 3) return;
+    print_graphical_list(files, lists, op);
 
 }
+
+
+
+
+
+
