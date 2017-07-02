@@ -8,7 +8,7 @@ void print_menu_remove() {
 	printf(">> ");
 }
 
-void logial_remove(FILE *fp, int pos, t_list *list) {
+void logial_remove(FILE *fp, int pos, int top) {
 	int counter = 0, invalid = -1;
 	char aux = 'a';
 
@@ -31,8 +31,7 @@ void logial_remove(FILE *fp, int pos, t_list *list) {
 	fwrite(&counter, sizeof(int), 1, fp);
 
 	// Mark the next in the list
-	// fwrite top da lista
-
+	fwrite(&top, sizeof(int), 1, fp);
 }
 
 void remove_record(t_files *files, t_list *list) {
@@ -47,16 +46,16 @@ void remove_record(t_files *files, t_list *list) {
 
 	// Best fit
 	// byteOffset = busca_no_arquivo_de_indice_best
-	logial_remove(files->outputBest, byteOffset, list);
+	// logial_remove(files->outputBest, byteOffset, list->best);
 	// list->best = byteOffset;
 
 	// Worst fit
 	// byteOffset = busca_no_arquivo_de_indice_worst
-	logial_remove(files->outputWorst, byteOffset, list);
+	// logial_remove(files->outputWorst, byteOffset, list->worst);
 	// list->worst = byteOffset;
 
 	// First fit 
 	// byteOffset = busca_no_arquivo_de_indice_first
-	logial_remove(files->outputFirst, byteOffset, list);
+	// logial_remove(files->outputFirst, byteOffset, list->first);
 	// list->first = byteOffset;
 }
