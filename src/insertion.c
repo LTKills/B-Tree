@@ -81,19 +81,18 @@ void insert(t_files *files, t_list *lists) {
     size = calculate_size(record);
 
     /*INSERT ON FIRST*/
-//    pos = search_insertion(files->outputFirst, 0, size);           // TODO: corrigir t_list
-//    fseek(files->outputFirst, pos, SEEK_SET);
-//    write_output_record(files->outputFirst, record);
+    pos = search_insertion(files->outputFirst, lists, size);           // TODO: corrigir t_list
+    fseek(files->outputFirst, pos, SEEK_SET);
+    write_output_record(files->outputFirst, record);
 
     /*INSERT ON BEST*/
-//    pos = search_insertion(files->outputBest, 1, size);           // TODO: corrigir t_list
-//    fseek(files->outputBest, pos, SEEK_SET);
-//    write_output_record(files->outputBest, record);
+	pos = search_insertion(files->outputBest, lists, size);           // TODO: corrigir t_list
+	fseek(files->outputBest, pos, SEEK_SET);
+    write_output_record(files->outputBest, record);
 
     /*INSERT ON WORST*/
-//    pos = search_insertion(files->outputWorst, 2, size);           // TODO: corrigir t_list
-//    fseek(files->outputWorst, pos, SEEK_SET);
-//    write_output_record(files->outputWorst, record);
-
+    pos = search_insertion(files->outputWorst, lists, size);           // TODO: corrigir t_list
+    fseek(files->outputWorst, pos, SEEK_SET);
+    write_output_record(files->outputWorst, record);
     free_record(record);
 }
