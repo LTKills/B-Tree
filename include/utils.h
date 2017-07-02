@@ -75,6 +75,7 @@ typedef struct {
 
 typedef struct {
 	int head;
+	int removed;
 } t_list;
 
 
@@ -104,6 +105,8 @@ t_list *create_index_lists();
 t_files *initialize(FILE *input);
 
 int get_file_size(FILE *file);
+
+int next_element(FILE *fp, int byteOffset, int *nextSize);
 
 int get_register_size(FILE *fp, int byteOffset);
 

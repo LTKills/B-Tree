@@ -202,8 +202,10 @@ void read_input(FILE *input, FILE *output, FILE *index) {
 t_list *create_index_lists() {
 	int i;
 	t_list *lists = malloc(3*sizeof(t_list));
-	for (i = 0; i < 3; i += 1)
+	for (i = 0; i < 3; i += 1) {
 		lists[i].head = INVALID;
+		lists[i].removed = 0;
+	}
 	return lists;
 }
 
@@ -226,6 +228,25 @@ t_files *initialize(FILE *input) {
     read_input(input, files->outputFirst, files->indexFirst);
 
 	return files;
+}
+
+
+
+/* Returns the next element in the linked list.
+If the element is not invalid, also return by nextSize its size. */
+int next_element(FILE *fp, int byteOffset, int *nextSize) {
+	int next;
+	
+	fseek(fp, byteOffset, SEEK_SET); // Go to the current position 
+	fseek(fp, 2*sizeof(int), SEEK_CUR); // skip over invalid and reg size
+	
+	fread(&next, sizeof(int), 1, fp); // gets the next element in the linked list
+	
+	fseek(fp, next, SEEK_SET); // Go to the next element
+	fseek(fp, sizeof(int), SEEK_CUR); // skip over invalid 
+	fread(nextSize, sizeof(int), 1, fp); // reads the size of the next element
+	
+	return next;
 }
 
 

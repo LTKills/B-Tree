@@ -22,26 +22,6 @@ void print_menu_remove() {
 }
 
 
-/* Returns the next element in the linked list.
-If the element is not invalid, also return by nextSize its size. */
-int next_element(FILE *fp, int byteOffset, int *nextSize) {
-	int next;
-	
-	fseek(fp, byteOffset, SEEK_SET); // Go to the current position 
-	fseek(fp, 2*sizeof(int), SEEK_CUR); // skip over invalid and reg size
-	
-	fread(&next, sizeof(int), 1, fp); // gets the next element in the linked list
-	
-	fseek(fp, next, SEEK_SET); // Go to the next element
-	fseek(fp, sizeof(int), SEEK_CUR); // skip over invalid 
-	fread(nextSize, sizeof(int), 1, fp); // reads the size of the next element
-	
-	return next;
-}
-
-
-
-
 void mark_reg_invalid(FILE *fp, int byteOffset, int nextElement) {
 	int regSize, invalid = INVALID;
 
@@ -247,6 +227,7 @@ void remove_record(t_files *files, t_list *lists) {
 	if ( found ) {
 		remove_index(files->indexBest, ticket, "best.idx");
 		logical_remove_best_and_worst(files->outputBest, byteOffset, &(lists[BEST]), "best");
+		lists[BEST].removed++;
 	}
 	else
 		printf("Ticket was not found in best.idx\n");
@@ -257,6 +238,7 @@ void remove_record(t_files *files, t_list *lists) {
 	if (found) {
 		remove_index(files->indexWorst, ticket, "worst.idx");
 		logical_remove_best_and_worst(files->outputWorst, byteOffset, &(lists[WORST]), "worst");
+		lists[WORST].removed++;
 	}
 	else
 		printf("Ticket was not found in worst.idx\n");
@@ -267,6 +249,7 @@ void remove_record(t_files *files, t_list *lists) {
 	if (found) {
 		logical_remove_first(files->outputFirst, byteOffset, &(lists[FIRST]));
 		remove_index(files->indexFirst, ticket, "first.idx");
+		lists[FIRST].removed++;
 	}
 	else
 		printf("Ticket was not found in first.idx\n");
