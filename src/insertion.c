@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <utils.h>
+#include <search.h>
 #include <check.h>
 
 
@@ -32,8 +33,10 @@ t_record *print_insert_menu() {
         record->dataHoraCadastro = read_line(stdin, FIELD_DELIM, LINE_END, FIXED_FIELD);
     } while(!checkInputDateAndTime(record->dataHoraCadastro)); // test
 
-    printf("Insert field 'dataHoraAtualiza': ");
-    record->dataHoraAtualiza = read_line(stdin, FIELD_DELIM, LINE_END, FIXED_FIELD);
+    do {
+        printf("Insert field 'dataHoraAtualiza': ");
+        record->dataHoraAtualiza = read_line(stdin, FIELD_DELIM, LINE_END, FIXED_FIELD);
+    } while(!checkInputDateAndTime(record->dataHoraAtualiza)); // test
 
     printf("Insert field 'ticket': ");
     temp = read_line(stdin, FIELD_DELIM, LINE_END, VARIABLE_FIELD);
@@ -41,7 +44,7 @@ t_record *print_insert_menu() {
 
     free(temp);
 
-    print_record(record);
+//    print_record(record);
 
     return record;
 }
