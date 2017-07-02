@@ -25,7 +25,7 @@ int main (int argc, char *argv[]) {
 	while (!feof(fp)) {
 		fread(&ticket, sizeof(int), 1, fp);
         if(feof(fp)) break;
-		printf("%d: %d \n", count, ticket);
+		printf("%d \n", ticket);
 		count++;
 	}
 

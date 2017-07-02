@@ -26,6 +26,8 @@ bool search_primary_index(FILE *index, int ticket, int *byteOffset) {
 	tickets = malloc(sizeof(int)*count);
 	byteOffsets = malloc(sizeof(int)*count);
 	
+	fseek(index, 0, SEEK_SET);
+	
 	// Reading to memory the key and byte offsett
 	fread(tickets, sizeof(int), count, index);
 	fread(byteOffsets, sizeof(int), count, index);
@@ -33,11 +35,8 @@ bool search_primary_index(FILE *index, int ticket, int *byteOffset) {
 	end = count - 1;
 	start = 0;
 
-	
 	while(end >= start) {
 		middle = (start+end)/2;
-		printf("start middle end \n");
-		printf("%d %d %d\n", start, middle, end);
 		
 		if(ticket > tickets[middle]) start = middle+1; // if query comes later
 		
@@ -46,10 +45,6 @@ bool search_primary_index(FILE *index, int ticket, int *byteOffset) {
 		else if(ticket == tickets[middle]) { // if we found the wanted query
 			found = true;
 			*byteOffset = byteOffsets[middle];
-			
-			//TODO
-			printf("olha, achei o cara tá?\n");
-			printf("o ticket é %d e o seu byteOffset é %d\n", ticket, *byteOffset);
 			
 			free(tickets);
 			free(byteOffsets);

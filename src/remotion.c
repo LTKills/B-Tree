@@ -173,8 +173,6 @@ FILE *remove_index(FILE *fp, int ticket, char *file_name) {
 
 	// Search for the index of the ticket
 	index = binary_search(tickets, 0, count-1, ticket);
-	
-	printf("index is %d\n", index);
 
 	// Shift the vector
 	for (i = index; i < count -1; i++) {
@@ -184,7 +182,7 @@ FILE *remove_index(FILE *fp, int ticket, char *file_name) {
 
 	// Clear the file
 	fclose(fp);
-	fp = fopen(file_name, "w"); // TODO pode dar bug porque o ponteiro pode ser outro que nao estava no fp antes, precisa testar
+	fp = fopen(file_name, "w+"); // TODO pode dar bug porque o ponteiro pode ser outro que nao estava no fp antes, precisa testar
 
 	// Write the content back to the index file
 	fwrite(tickets, sizeof(int), count-1, fp);
@@ -203,7 +201,6 @@ void remove_record(t_files *files, t_list *lists) {
 	char *temp;
 	bool found;
 
-	// TODO: acho que esse scanf da ruim qnd digitado strings e outras coisas aleatorias (B)
 	while (1) {
 		print_menu_remove();
 		
@@ -215,10 +212,6 @@ void remove_record(t_files *files, t_list *lists) {
 		if (ticket >= 0) break;
 		printf("Ticket must be a integer greater or equal then zero!!\n\n\n");
 	}
-	
-	
-	//TODO
-	printf("ticket is %d\n", ticket);
 
 	// Best fit
 	found = search_primary_index(files->indexBest, ticket, &byteOffset);
