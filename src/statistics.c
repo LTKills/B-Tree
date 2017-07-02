@@ -21,6 +21,8 @@ void print_list_node(int byteOffset, int size) {
 void print_graphical_list(t_files *files, t_list *lists, int op) {
     int pos = lists[op].head, size = -1, lineLimit = 1, next = -1;
     FILE *fp;
+    
+    printf("list[BEST]->head is %d\n", lists[BEST].head);
 
     // Choose output file
     switch(op) {
@@ -51,11 +53,15 @@ void print_graphical_list(t_files *files, t_list *lists, int op) {
 
         next = next_element(fp, pos, &size);
 
-        print_list_node(pos, size);
-
-        pos = next;
-        lineLimit++;
-        lineLimit %= 10;
+		if (next != INVALID) {
+	        print_list_node(pos, size);
+    	    pos = next;
+    	    lineLimit++;
+    	    lineLimit %= 10;
+   		}
+   		
+   		else
+   			break;
     }
     printf("\tEND\n");
 }
