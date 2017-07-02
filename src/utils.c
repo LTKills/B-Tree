@@ -10,7 +10,7 @@ void print_record(t_record *record) {
     printf("Dominio: %s\n", record->dominio);
     printf("Documento: %s\n", record->documento);
     printf("Nome: %s\n", record->nome);
-    printf("uf: %s\n", record->uf);
+    printf("UF: %s\n", record->uf);
     printf("Cidade: %s\n", record->cidade);
     printf("DataHoraCadastro: %s\n", record->dataHoraCadastro);
     printf("DataHoraAtualiza: %s\n", record->dataHoraCadastro);
@@ -161,13 +161,8 @@ void create_index_file(FILE *output, FILE *index) {
 
     quickSort(tickets, 0, n-2);
 
-    //for(i = 0; i < n-1; i++) {
-     //   printf("%d %d\n", tickets[0][i], tickets[1][i]);
-    for(i = 0; i < n-1; i++) {
-    //    printf("%d %d\n", tickets[0][i], tickets[1][i]);
-        fwrite(&tickets[0][i], sizeof(int), 1, index);
-        fwrite(&tickets[1][i], sizeof(int), 1, index);
-    }
+    fwrite(tickets[0], sizeof(int), n-1, index);
+    fwrite(tickets[1], sizeof(int), n-1, index);
 
     free(tickets[0]);
     free(tickets[1]);
@@ -179,6 +174,8 @@ void create_index_file(FILE *output, FILE *index) {
 /*Reads input file and creates index and output files*/
 void read_input(FILE *input, FILE *output, FILE *index) {
     t_record *record;
+
+    fseek(input, 0, SEEK_SET);
 
     // Creating output file
     while(!feof(input)) {
