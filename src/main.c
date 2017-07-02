@@ -56,18 +56,15 @@ int choose_operation(int option, t_files *files, t_list *lists) {
             break;
 
         case REMOTION:
-            printf("placeholder for remove\n");
             remove_record(files, lists);
             break;
 
         case INDEX_STATISTICS:
-            printf("placeholder for index stats\n");
-//            index_stats();
+            index_stats(files, lists);
             break;
 
         case REMOVED_STATISTICS:
-            printf("placeholder for remove stats\n");
-//            removed_stats();
+            removed_stats(files, lists);
             break;
 
         default:

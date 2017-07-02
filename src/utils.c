@@ -161,13 +161,8 @@ void create_index_file(FILE *output, FILE *index) {
 
     quickSort(tickets, 0, n-2);
 
-    //for(i = 0; i < n-1; i++) {
-     //   printf("%d %d\n", tickets[0][i], tickets[1][i]);
-    for(i = 0; i < n-1; i++) {
-    //    printf("%d %d\n", tickets[0][i], tickets[1][i]);
-        fwrite(&tickets[0][i], sizeof(int), 1, index);
-        fwrite(&tickets[1][i], sizeof(int), 1, index);
-    }
+    fwrite(tickets[0], sizeof(int), n-1, index);
+    fwrite(tickets[1], sizeof(int), n-1, index);
 
     free(tickets[0]);
     free(tickets[1]);
