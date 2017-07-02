@@ -13,13 +13,13 @@
 
 
 void print_list_node(int byteOffset, int size) {
-    printf("##\tByte Offset: %d\t##\tSize: %d\t##\t----->", byteOffset, size);
+    printf("## Byte Offset: %d\tSize: %d ##\t----->", byteOffset, size);
 }
 
 
 /*Prints linked list graphically*/
 void print_graphical_list(t_files *files, t_list *lists, int op) {
-    int pos = lists[op].head, size = -1, lineLimit = 0, next = -1;
+    int pos = lists[op].head, size = -1, lineLimit = 1, next = -1;
     FILE *fp;
 
     // Choose output file
@@ -35,6 +35,9 @@ void print_graphical_list(t_files *files, t_list *lists, int op) {
         case WORST:
             fp = files->outputWorst;
             break;
+
+        default:
+            printf("WHAT\n");
     }
 
 
@@ -44,20 +47,17 @@ void print_graphical_list(t_files *files, t_list *lists, int op) {
     // pos starts at the beginning of the list
 
     while (pos != INVALID ) {
-//        next = next_element(fp, pos, &size);
+        if(lineLimit == 0) printf("\n");
 
+        next = next_element(fp, pos, &size);
 
         print_list_node(pos, size);
-        if(lineLimit == 0) printf("\n\n");
 
-
-        // if the next element has a smaller regsize, go to it
-        if(next != INVALID) pos = next;
-
+        pos = next;
         lineLimit++;
         lineLimit %= 10;
     }
-
+    printf("\tEND\n");
 }
 
 
