@@ -10,7 +10,7 @@ void print_record(t_record *record) {
     printf("Dominio: %s\n", record->dominio);
     printf("Documento: %s\n", record->documento);
     printf("Nome: %s\n", record->nome);
-    printf("uf: %s\n", record->uf);
+    printf("UF: %s\n", record->uf);
     printf("Cidade: %s\n", record->cidade);
     printf("DataHoraCadastro: %s\n", record->dataHoraCadastro);
     printf("DataHoraAtualiza: %s\n", record->dataHoraCadastro);
@@ -174,6 +174,8 @@ void create_index_file(FILE *output, FILE *index) {
 /*Reads input file and creates index and output files*/
 void read_input(FILE *input, FILE *output, FILE *index) {
     t_record *record;
+
+    fseek(input, 0, SEEK_SET);
 
     // Creating output file
     while(!feof(input)) {

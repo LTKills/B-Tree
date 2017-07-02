@@ -10,20 +10,22 @@
 int print_index_stats_menu(int nfirst, int nworst, int nbest,
         int **first, int **best, int **worst, int counter) {
 
-        char *string = NULL, next[2] = {'n', '\0'}, prev[2] = {'p', '\0'};
+        char *string = NULL, next[2] = {'n', '\0'};
         int op = STOP;
 
 
         printf("\n\n\n");
-        printf("========================INDEX=STATISTICS========================\n");
-        printf("=             Best-Fit            Worst-Fit          First-Fit =\n");
-        printf("=                                                              =\n");
-        printf("= Records        %d                   %d                 %d    =\n", nbest, nworst, nfirst);
-        printf("=                                                              =\n");
-        printf("= Entry          %d                   %d                 %d    =\n", best[0][counter], worst[0][counter], first[0][counter]);
-        printf("=                                                              =\n");
-        printf("=     Next(n)                                  Exit(any key)   =\n");
-        printf("================================================================\n");
+        printf("=================================INDEX=STATISTICS=================================\n");
+        printf("                        Best-Fit\tWorst-Fit\tFirst-Fit\n");
+        printf("                                                                                  \n");
+        printf(" Number of Records         %d\t\t%d\t\t%d\n", nbest, nworst, nfirst);
+        printf("                                                                                  \n");
+        printf(" Entry (Ticket)            %d\t\t%d\t\t%d\n", best[0][counter], worst[0][counter], first[0][counter]);
+        printf("                                                                                  \n");
+        printf(" Byte Offset               %d\t\t%d\t\t%d\n", best[1][counter], worst[1][counter], first[1][counter]);
+        printf("                                                                                  \n");
+        printf("     Next(n)                                                   Exit(any key)      \n");
+        printf("==================================================================================\n");
         printf("\n\n");
         string = read_line(stdin, '\n', '\n', VARIABLE_FIELD);
 
@@ -61,6 +63,15 @@ void index_stats(t_files *files, t_list *lists) {
     fseek(files->indexWorst, 0, SEEK_SET);
     fseek(files->indexBest, 0, SEEK_SET);
 
+    first[0] = malloc(sizeof(int)*nfirst/2);
+    first[1] = malloc(sizeof(int)*nfirst/2);
+
+    worst[0] = malloc(sizeof(int)*nworst/2);
+    worst[1] = malloc(sizeof(int)*nworst/2);
+
+    best[0] = malloc(sizeof(int)*nbest/2);
+    best[1] = malloc(sizeof(int)*nbest/2);
+
 
     fread(first[0], sizeof(int), nfirst/2, files->indexFirst);
     fread(first[1], sizeof(int), nfirst/2, files->indexFirst);
@@ -77,14 +88,14 @@ void index_stats(t_files *files, t_list *lists) {
     i = 0;
     do {
         op = print_index_stats_menu(nfirst, nworst, nbest,
-                **first, **best, **worst, i);
+                first, best, worst, i);
         i++;
     } while(op == GO);
 
 
 
     /*Deallocate*/
-    for(i = 0; i < 3; i++) {
+    for(i = 0; i < 2; i++) {
         free(first[i]);
         free(best[i]);
         free(worst[i]);
