@@ -216,8 +216,8 @@ void remove_record(t_files *files, t_list *lists) {
 	    ticket = atoi(temp);
 	    free(temp);
 	    
-		if (ticket > 0) break;
-		printf("Ticket must be a integer greater then zero!!\n\n\n");
+		if (ticket >= 0) break;
+		printf("Ticket must be a integer greater or equal then zero!!\n\n\n");
 	}
 
 	// Best fit
