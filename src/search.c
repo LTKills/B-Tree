@@ -27,8 +27,8 @@ bool search_primary_index(FILE *index, int ticket, int *byteOffset) {
 	byteOffsets = malloc(sizeof(int)*count);
 	
 	// Reading to memory the key and byte offsett
-	fread(tickets, count, sizeof(int), index);
-	fread(byteOffsets, count, sizeof(int), index);
+	fread(tickets, sizeof(int), count, index);
+	fread(byteOffsets, sizeof(int), count, index);
 	
 	end = count - 1;
 	start = 0;
@@ -49,6 +49,9 @@ bool search_primary_index(FILE *index, int ticket, int *byteOffset) {
     
     // the query was not found therefore it does not exist in the primary index
     *byteOffset = INVALID;
+
+    free(tickets);
+    free(byteOffsets);
     return false;
 }
 
