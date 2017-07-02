@@ -1,5 +1,5 @@
 COMPILER=gcc
-FLAGS = #-Wall
+FLAGS = -Wall
 SRC=./src/*.c
 INCLUDEDIR=./include/
 BINARY=t2
@@ -10,9 +10,8 @@ all:
 	$(COMPILER) $(FLAGS) $(SRC) -I$(INCLUDEDIR) -o $(BINARY)
 
 run:
-	clear
 	./$(BINARY) $(INPUT)
-
+	clear
 clean:
 	rm *.dat *.idx vgcore* $(BINARY)
 
@@ -24,6 +23,10 @@ bug:
 # For Bruno's private use
 open:
 	gedit $(SRC) $(INCLUDEDIR)*.h
-
+	
+test:
+	clear
+	$(COMPILER) test.c -o teste
+	./teste
 
 

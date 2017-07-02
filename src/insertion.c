@@ -74,7 +74,7 @@ int calculate_size(t_record *record) {
 
 void insert(t_files *files, t_list *lists) {
     t_record *record;
-    int pos = -1, size = -1;
+    int pos = -1, size;
 
 
     record = print_insert_menu();
