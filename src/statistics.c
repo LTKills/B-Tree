@@ -21,15 +21,12 @@ void print_list_node(int byteOffset, int size) {
 void print_graphical_list(t_files *files, t_list *lists, int op) {
     int pos = lists[op].head, size = -1, lineLimit = 1, next = -1;
     FILE *fp;
-    
-    printf("op is %d\n", op);
-    printf("list[BEST]->head is %d\n", lists[BEST].head);
 
     // Choose output file
     switch(op) {
         case BEST:
             fp = files->outputBest;
-            printf("AQUIII\n");
+            printf("AQUIII\n"); // TODO
             break;
 
         case FIRST:
@@ -41,7 +38,7 @@ void print_graphical_list(t_files *files, t_list *lists, int op) {
             break;
 
         default:
-            printf("WHAT\n");
+            printf("WHAT\n"); // TODO
     }
 
     // Go to the given position
@@ -55,6 +52,8 @@ void print_graphical_list(t_files *files, t_list *lists, int op) {
     fseek(fp, pos, SEEK_SET);
 
     // pos starts at the beginning of the list
+    
+    printf("pos is %d and list[first].head is %d\n", pos, lists[op].head);
 
     while (pos != INVALID ) {
         if(lineLimit == 0) printf("\n");
@@ -81,7 +80,7 @@ int print_removed_stats_table(t_list *lists) {
     char *string = NULL;
     printf("================================REMOVED STATISTICS=================================\n");
     printf("                        Best-Fit\tWorst-Fit\tFirst-Fit\n");
-    printf("Nomber of records removed  %d\t\t%d\t\t%d\n\n\n", lists[BEST].removed, lists[WORST].removed, lists[FIRST].removed);
+    printf("Number of records removed  %d\t\t%d\t\t%d\n\n\n", lists[BEST].removed, lists[WORST].removed, lists[FIRST].removed);
     printf("--------------OPTIONS---------------\n");
     printf("0. Display graphical Best-Fit list\n");
     printf("1. Display graphical Worst-Fit list\n");

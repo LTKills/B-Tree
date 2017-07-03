@@ -148,6 +148,7 @@ void logical_remove_best_and_worst(FILE *fp, int byteOffset, t_list *list, char 
 void logical_remove_first(FILE *fp, int byteOffset, t_list *list) {
 	// Adds the removed register to the beginning of the linked list
 	mark_reg_invalid(fp, byteOffset, list->head);	
+	list->head = byteOffset;
 }
 
 
