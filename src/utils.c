@@ -381,12 +381,7 @@ int get_register_size(FILE *fp, int byteOffset) {
 		fread(&aux, sizeof(char), 1, fp);
 		if (!feof(fp)) counter++;
 	}
-	
-	//TODO: debugging only
-	if (counter == 0)
-		printf("GEEEEEEEEEEEEEEEEEEEEEEEEENTE DEU RUIM, UTILS.C, GET_REGISTER_SIZE");
-	
-	
+
 	return counter;
 }
 
