@@ -14,7 +14,8 @@ compile:
 
 run: $(BINARY) $(INPUT)
 	./$(BINARY) $(INPUT)
-	clear
+	# clear
+	
 clean:
 	rm *.dat *.idx vgcore* $(BINARY)
 
