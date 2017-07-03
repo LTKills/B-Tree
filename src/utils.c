@@ -8,24 +8,27 @@
 /*Reads one record for defragmentation*/
 void read_defrag_record(FILE *input, t_record *record) {
     int foo;
+    char fii;
 
     fread(&record->ticket, sizeof(int), 1, input);
-    record->documento = read_line(input, FIELD_DELIM, LINE_END, FIXED_FIELD);
-    record->dataHoraCadastro = read_line(input, FIELD_DELIM, LINE_END, FIXED_FIELD);
-    record->dataHoraAtualiza = read_line(input, FIELD_DELIM, LINE_END, FIXED_FIELD);
+    record->documento = read_line(input, '\0', LINE_END, FIXED_FIELD);
+    record->dataHoraCadastro = read_line(input, '\0', LINE_END, FIXED_FIELD);
+    record->dataHoraAtualiza = read_line(input, '\0', LINE_END, FIXED_FIELD);
 
 
     fread(&foo, sizeof(int), 1, input);
-    record->dominio = read_line(input, FIELD_DELIM, LINE_END, VARIABLE_FIELD);
+    record->dominio = read_line(input, '\0', LINE_END, VARIABLE_FIELD);
 
     fread(&foo, sizeof(int), 1, input);
-    record->nome = read_line(input, FIELD_DELIM, LINE_END, VARIABLE_FIELD);
+    record->nome = read_line(input, '\0', LINE_END, VARIABLE_FIELD);
 
     fread(&foo, sizeof(int), 1, input);
-    record->uf = read_line(input, FIELD_DELIM, LINE_END, VARIABLE_FIELD);
+    record->uf = read_line(input, '\0', LINE_END, VARIABLE_FIELD);
 
     fread(&foo, sizeof(int), 1, input);
-    record->cidade = read_line(input, FIELD_DELIM, LINE_END, VARIABLE_FIELD);
+    record->cidade = read_line(input, '\0', LINE_END, VARIABLE_FIELD);
+
+    fread(&fii, sizeof(char), 1, input);
 
 }
 
@@ -72,6 +75,7 @@ t_list defragment(t_list list, t_files *files, int op) {
         records[i] = malloc(sizeof(t_record));
 
         read_defrag_record(output, records[i]);
+        print_record(records[i]);
     }
 
     // Create new file
