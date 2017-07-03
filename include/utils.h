@@ -76,10 +76,12 @@ typedef struct {
 typedef struct {
 	int head;
 	int removed;
+    int fragmentation;
 } t_list;
 
 
 /*========== FUNCTIONS ==========*/
+t_list defragment(t_list list, t_files *files, int op);
 
 void write_output_record(FILE *output, t_record *record);
 
