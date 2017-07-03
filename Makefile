@@ -14,7 +14,7 @@ run:
 	./$(BINARY) $(INPUT)
 	clear
 clean:
-	rm *.dat *.idx vgcore* $(BINARY)
+	rm *.dat *.idx $(BINARY)
 
 # for denugging purposes only
 bug:
