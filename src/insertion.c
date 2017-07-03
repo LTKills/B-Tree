@@ -84,6 +84,12 @@ void insert(t_files *files, t_list *lists) {
     record = print_insert_menu();
     size = calculate_size(record);
 
+    /*Defragment files*/
+    if(get_register_size(files->outputFirst, pos) != 0) {
+        lists[FIRST].fragmentation++;
+        if(lists[FIRST].fragmentation > 1)
+            lists[FIRST] = defragment(lists[FIRST], files, FIRST);
+    }
 
 
     /*INSERT ON OUTPUT FILES*/
@@ -92,16 +98,38 @@ void insert(t_files *files, t_list *lists) {
     fseek(files->outputFirst, pos, SEEK_SET);
     write_output_record(files->outputFirst, record);
 
+    /*Defragment files*/
+    if(get_register_size(files->outputFirst, pos) != 0){
+        lists[FIRST].fragmentation++;
+        if(lists[FIRST].fragmentation > 1)
+            lists[FIRST] = defragment(lists[FIRST], files, FIRST);
+    }
+
+
     /*BEST*/
     pos = search_insertion(files->outputBest, lists, size);
     fseek(files->outputBest, pos, SEEK_SET);
     write_output_record(files->outputBest, record);
+
+    /*Defragment files*/
+    if(get_register_size(files->outputBest, pos) != 0) {
+        lists[BEST].fragmentation++;
+        if(lists[BEST].fragmentation > 1)
+            lists[BEST] = defragment(lists[BEST], files, BEST);
+    }
+
 
     /*WORST*/
     pos = search_insertion(files->outputWorst, lists, size);
     fseek(files->outputWorst, pos, SEEK_SET);
     write_output_record(files->outputWorst, record);
 
+    /*Defragment files*/
+    if(get_register_size(files->outputWorst, pos) != 0) {
+        lists[WORST].fragmentation++;
+        if(lists[WORST].fragmentation > 5)
+            lists[WORST] = defragment(lists[WORST], files, WORST);
+    }
 
 
     /*INSERT ON INDEX FILES*/
@@ -172,12 +200,7 @@ void insert(t_files *files, t_list *lists) {
         free(worst[i]);
     }
 
-    /*Defragment files*/
-    for(i = 0; i < 3; i++) {
-        if(lists[i].fragmentation >= 1)
-            lists[i] = defragment(lists[i], files, i);
-    }
-
+    
     free(first);
     free(best);
     free(worst);
