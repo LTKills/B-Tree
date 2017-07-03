@@ -46,6 +46,13 @@ void print_graphical_list(t_files *files, t_list *lists, int op) {
 
     // Go to the given position
     fseek(fp, pos, SEEK_SET);
+    
+    // reading the first element size
+    fseek(fp, sizeof(int), SEEK_CUR); // skipping over invalid(-1)
+    fread(&size, sizeof(int), 1, fp);
+    
+    // going back to the beginning	
+    fseek(fp, pos, SEEK_SET);
 
     // pos starts at the beginning of the list
 
