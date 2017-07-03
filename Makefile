@@ -6,11 +6,13 @@ INCLUDEDIR=./include/
 BINARY=t2
 INPUT=input.csv
 
-all:
+all: compile
+
+compile:
 	clear
 	$(COMPILER) $(FLAGS) $(SRC) -I$(INCLUDEDIR) -o $(BINARY)
 
-run:
+run: $(BINARY) $(INPUT)
 	./$(BINARY) $(INPUT)
 	clear
 clean:

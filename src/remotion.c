@@ -17,7 +17,7 @@ int binary_search(int *vector, int begin, int end, int val) {
 
 
 void print_menu_remove() {
-	printf("Please, give the ticket number to be removed\n");
+	printf("\n\n\nPlease, give the ticket number to be removed\n");
 	printf(">> ");
 }
 
