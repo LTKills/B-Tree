@@ -5,6 +5,111 @@
 #include <quick.h>
 
 
+/*Reads one record for defragmentation*/
+void read_defrag_record(FILE *input, t_record *record) {
+    int foo;
+
+    fread(&record->ticket, sizeof(int), 1, input);
+    record->documento = read_line(input, FIELD_DELIM, LINE_END, FIXED_FIELD);
+    record->dataHoraCadastro = read_line(input, FIELD_DELIM, LINE_END, FIXED_FIELD);
+    record->dataHoraAtualiza = read_line(input, FIELD_DELIM, LINE_END, FIXED_FIELD);
+
+
+    fread(&foo, sizeof(int), 1, input);
+    record->dominio = read_line(input, FIELD_DELIM, LINE_END, VARIABLE_FIELD);
+
+    fread(&foo, sizeof(int), 1, input);
+    record->nome = read_line(input, FIELD_DELIM, LINE_END, VARIABLE_FIELD);
+
+    fread(&foo, sizeof(int), 1, input);
+    record->uf = read_line(input, FIELD_DELIM, LINE_END, VARIABLE_FIELD);
+
+    fread(&foo, sizeof(int), 1, input);
+    record->cidade = read_line(input, FIELD_DELIM, LINE_END, VARIABLE_FIELD);
+
+}
+
+
+
+/*Defragments files and removes intern fragmentation*/
+t_list defragment(t_list list, t_files *files, int op) {
+    t_record **records = NULL;
+    FILE *index, *output;
+    int mid, pos, i, j;
+    char *filename;
+
+    // Choose files
+    switch(op){
+        case BEST:
+            index = files->indexBest;
+            output = files->outputBest;
+            filename = "outputBest.dat";
+            break;
+        case WORST:
+            index = files->indexWorst;
+            output = files->outputWorst;
+            filename = "outputWorst.dat";
+            break;
+        case FIRST:
+            index = files->indexFirst;
+            output = files->outputFirst;
+            filename = "outputFirst.dat";
+            break;
+    }
+
+    // Go to the middle of the index file
+    fseek(index, 0, SEEK_END);
+    mid = ftell(index)/2;
+    fseek(index, mid, SEEK_SET);
+
+    // For each byte offset(record)
+    for(i = 0; !feof(index); i++) {
+        fread(&pos, sizeof(int), 1, index);
+        if(feof(index)) break;
+
+        fseek(output, pos, SEEK_SET);
+        records = realloc(records, sizeof(t_record*) * (i+1));
+        records[i] = malloc(sizeof(t_record));
+
+        read_defrag_record(output, records[i]);
+    }
+
+    // Create new file
+    fclose(output);
+    output = fopen(filename, "w+");
+    fseek(index, mid, SEEK_SET);
+
+    // Write on new file
+    for(j = 0; j < i; j++) {
+        pos = ftell(output);
+        fwrite(&pos, sizeof(int), 1, index);
+        print_record(records[i]);
+        write_output_record(output, records[i]);
+        free_record(records[i]);
+    }
+
+    list.head = -1;
+    list.removed = 0;
+    list.fragmentation = 0;
+
+    switch(op){
+        case BEST:
+            files->outputBest = output;
+            break;
+        case WORST:
+           files->outputWorst = output;
+            break;
+        case FIRST:
+            files->outputFirst = output;
+            break;
+    }
+
+    free(records);
+    return list;
+}
+
+
+
 /*Print record for testing purposes*/
 void print_record(t_record *record) {
     printf("Dominio: %s\n", record->dominio);
@@ -211,6 +316,7 @@ t_list *create_index_lists() {
 	for (i = 0; i < 3; i += 1) {
 		lists[i].head = INVALID;
 		lists[i].removed = 0;
+		lists[i].fragmentation = 0;
 	}
 	return lists;
 }

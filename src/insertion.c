@@ -172,6 +172,12 @@ void insert(t_files *files, t_list *lists) {
         free(worst[i]);
     }
 
+    /*Defragment files*/
+    for(i = 0; i < 3; i++) {
+        if(lists[i].fragmentation >= 1)
+            lists[i] = defragment(lists[i], files, i);
+    }
+
     free(first);
     free(best);
     free(worst);

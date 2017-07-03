@@ -81,6 +81,7 @@ int search_insertion(FILE *output, t_list *list, int neededSize) {
 		
 		if (availableSize >= neededSize) {
 			fseek(output, 0, SEEK_SET);
+            list->fragmentation += availableSize - neededSize;
 			return pos;
 		}
 			
