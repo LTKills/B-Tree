@@ -276,7 +276,6 @@ int get_register_size(FILE *fp, int byteOffset) {
 	
 	
 	return counter;
-	
 }
 
 

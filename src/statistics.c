@@ -22,12 +22,14 @@ void print_graphical_list(t_files *files, t_list *lists, int op) {
     int pos = lists[op].head, size = -1, lineLimit = 1, next = -1;
     FILE *fp;
     
+    printf("op is %d\n", op);
     printf("list[BEST]->head is %d\n", lists[BEST].head);
 
     // Choose output file
     switch(op) {
         case BEST:
             fp = files->outputBest;
+            printf("AQUIII\n");
             break;
 
         case FIRST:
@@ -42,7 +44,6 @@ void print_graphical_list(t_files *files, t_list *lists, int op) {
             printf("WHAT\n");
     }
 
-
     // Go to the given position
     fseek(fp, pos, SEEK_SET);
 
@@ -50,11 +51,11 @@ void print_graphical_list(t_files *files, t_list *lists, int op) {
 
     while (pos != INVALID ) {
         if(lineLimit == 0) printf("\n");
+        print_list_node(pos, size);
 
         next = next_element(fp, pos, &size);
 
 		if (next != INVALID) {
-	        print_list_node(pos, size);
     	    pos = next;
     	    lineLimit++;
     	    lineLimit %= 10;
@@ -194,6 +195,8 @@ void index_stats(t_files *files, t_list *lists) {
 /*Statistics about the removed records*/
 void removed_stats(t_files *files, t_list *lists) {
     int op = -1;
+    
+    fseek(files->outputBest, 0, SEEK_SET);
 
     do {
         op = print_removed_stats_table(lists);

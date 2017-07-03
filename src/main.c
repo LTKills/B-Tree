@@ -56,6 +56,7 @@ int choose_operation(int option, t_files *files, t_list *lists) {
             break;
 
         case REMOTION:
+        	fseek(files->outputBest, 0, SEEK_SET);
             remove_record(files, lists);
             break;
 

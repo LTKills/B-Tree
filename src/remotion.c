@@ -39,6 +39,7 @@ void mark_reg_invalid(FILE *fp, int byteOffset, int nextElement) {
 	
 	// Mark the next in the list
 	fwrite(&nextElement, sizeof(int), 1, fp);
+	
 }
 
 
@@ -67,7 +68,7 @@ int logical_remove_best_fit_search(FILE *fp, int byteOffset, t_list *list) {
 	}
 	
 	// if we didnt find a position in the list, at it to the end of the data file.
-	return get_file_size(fp);
+	return INVALID;
 }
 
 
@@ -97,7 +98,7 @@ int logical_remove_worst_fit_search(FILE *fp, int byteOffset, t_list *list) {
 	}
 	
 	// if we didnt find a position in the list, at it to the end of the data file.
-	return get_file_size(fp);
+	return INVALID;
 }
 
 
@@ -234,12 +235,13 @@ void remove_record(t_files *files, t_list *lists) {
 	else
 		printf("Ticket was not found in worst.idx\n");
 
-
 	// First fit
 	found = search_primary_index(files->indexFirst, ticket, &byteOffset);
 	if (found) {
 		files->indexFirst = remove_index(files->indexFirst, ticket, "first.idx");	
 		logical_remove_first(files->outputFirst, byteOffset, &(lists[FIRST]));
+		fclose(files->outputFirst);
+		files->outputFirst = fopen("first.dat", "r+");
 		lists[FIRST].removed++;
 	}
 	else

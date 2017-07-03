@@ -17,6 +17,7 @@ bool is_EOF(FILE *stream) {
 }
 
 
+
 int main (int argc, char *argv[]) {
 	FILE *fp;
 	fp = fopen("worst.idx", "rb");

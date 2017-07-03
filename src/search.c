@@ -80,7 +80,7 @@ int search_insertion(FILE *output, t_list *list, int neededSize) {
 		fread(&next, sizeof(int), 1, output);
 		
 		if (availableSize >= neededSize) {
-			rewind(output);
+			fseek(output, 0, SEEK_SET);
 			return pos;
 		}
 			
