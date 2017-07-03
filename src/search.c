@@ -62,29 +62,51 @@ bool search_primary_index(FILE *index, int ticket, int *byteOffset) {
 
 
 
-
-
 int search_insertion(FILE *output, t_list *list, int neededSize) {
-	int pos, availableSize, next;
+	int pos, posSize, nextSize, next;
 	
 	// If there is no space to be reused, insert at the end of the data file
 	if (list->head == INVALID)
 		return get_file_size(output);
 	
 	pos = list->head;
+	fseek(output, pos + sizeof(int), SEEK_SET); 
+    fread(&posSize, sizeof(int), 1, output);
+	fread(&next, sizeof(int), 1, output);  
+    
+    // Removing at the head
+    if (posSize >= neededSize) {
+    	list->head = next;
+    	return pos;
+    }
 	
-	while (pos != INVALID) {
-		// "sizeof(int)" so we can skip over "-1" as a int
+	
+	// Searches the list for a valid position
+	while (pos != INVALID ) {
 		fseek(output, pos + sizeof(int), SEEK_SET); 
-		fread(&availableSize, sizeof(int), 1, output);
-		fread(&next, sizeof(int), 1, output);
+	    fread(&posSize, sizeof(int), 1, output);  
+	
+		next = next_element(output, pos, &nextSize);
 		
-		if (availableSize >= neededSize) {
-			fseek(output, 0, SEEK_SET);
-			return pos;
-		}
-			
-		pos = next;
+		// if the next element has a smaller (or equal) regsize, go to it
+		if (next != INVALID && nextSize >= neededSize) {
+			break;
+		} 
+		else if (next != INVALID)
+			pos = next;
+		else
+			break;
+	}
+	
+	// If there is a valid position, change the previous node's next pointer
+	if (next != INVALID && nextSize >= neededSize) {
+		int newNextSize, newNext;
+		newNext = next_element(output, next, &newNextSize); // after = next->next;		
+		
+		fseek(output, pos + 2*sizeof(int), SEEK_SET); 
+		fwrite(&newNext, sizeof(int), 1, output); // pos->next = after;
+		
+		return next;
 	}
 	
 	// No available reusable space was found, so we insert at the end of the data file
