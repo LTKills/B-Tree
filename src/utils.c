@@ -354,9 +354,11 @@ int next_element(FILE *fp, int byteOffset, int *nextSize) {
 	
 	fread(&next, sizeof(int), 1, fp); // gets the next element in the linked list
 	
-	fseek(fp, next, SEEK_SET); // Go to the next element
-	fseek(fp, sizeof(int), SEEK_CUR); // skip over invalid 
-	fread(nextSize, sizeof(int), 1, fp); // reads the size of the next element
+	if (next != INVALID) {
+		fseek(fp, next, SEEK_SET); // Go to the next element
+		fseek(fp, sizeof(int), SEEK_CUR); // skip over invalid 
+		fread(nextSize, sizeof(int), 1, fp); // reads the size of the next element
+	}
 	
 	return next;
 }

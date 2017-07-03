@@ -17,7 +17,7 @@ int binary_search(int *vector, int begin, int end, int val) {
 
 
 void print_menu_remove() {
-	printf("Please, give the ticket number to be removed\n");
+	printf("\n\n\nPlease, give the ticket number to be removed\n");
 	printf(">> ");
 }
 
@@ -45,7 +45,7 @@ void mark_reg_invalid(FILE *fp, int byteOffset, int nextElement) {
 
 int logical_remove_best_fit_search(FILE *fp, int byteOffset, t_list *list) {
 	int pos, next, nextSize;
-	int regSize;
+	int regSize, posSize;
 	
 	regSize = get_register_size(fp, byteOffset);
 	
@@ -67,15 +67,24 @@ int logical_remove_best_fit_search(FILE *fp, int byteOffset, t_list *list) {
 			break;
 	}
 	
+	
+	if (pos != INVALID) {
+		posSize = get_register_size(fp, pos);
+		if (posSize <= regSize)
+			return pos;
+		else
+			return INVALID;
+	}
+	
 	// if we didnt find a position in the list, at it to the end of the data file.
-	return INVALID;
+	return pos;
 }
 
 
 
 int logical_remove_worst_fit_search(FILE *fp, int byteOffset, t_list *list) {
-	int pos, next, nextSize;
-	int regSize;
+	int pos, next, nextSize = -1;
+	int regSize, posSize;
 	
 	regSize = get_register_size(fp, byteOffset);
 	
@@ -97,8 +106,16 @@ int logical_remove_worst_fit_search(FILE *fp, int byteOffset, t_list *list) {
 			break;
 	}
 	
+	if (pos != INVALID) {
+		posSize = get_register_size(fp, pos);
+		if (posSize >= regSize)
+			return pos;
+		else
+			return INVALID;
+	}
+	
 	// if we didnt find a position in the list, at it to the end of the data file.
-	return INVALID;
+	return pos;
 }
 
 
@@ -220,7 +237,10 @@ void remove_record(t_files *files, t_list *lists) {
 	if ( found ) {
 		files->indexBest = remove_index(files->indexBest, ticket, "best.idx");
 		logical_remove_best_and_worst(files->outputBest, byteOffset, &(lists[BEST]), "best");
+		fclose(files->outputBest);
+		files->outputBest = fopen("best.dat", "r+");
 		lists[BEST].removed++;
+		printf("Ticket %d removed from best.idx with success\n", ticket);
 	}
 	else
 		printf("Ticket was not found in best.idx\n");
@@ -231,7 +251,10 @@ void remove_record(t_files *files, t_list *lists) {
 	if (found) {
 		files->indexWorst = remove_index(files->indexWorst, ticket, "worst.idx");
 		logical_remove_best_and_worst(files->outputWorst, byteOffset, &(lists[WORST]), "worst");
+		fclose(files->outputWorst);
+		files->outputWorst = fopen("worst.dat", "r+");
 		lists[WORST].removed++;
+		printf("Ticket %d removed from worst.idx with success\n", ticket);
 	}
 	else
 		printf("Ticket was not found in worst.idx\n");
@@ -244,6 +267,7 @@ void remove_record(t_files *files, t_list *lists) {
 		fclose(files->outputFirst);
 		files->outputFirst = fopen("first.dat", "r+");
 		lists[FIRST].removed++;
+		printf("Ticket %d removed from first.idx with success\n", ticket);
 	}
 	else
 		printf("Ticket was not found in first.idx\n");
