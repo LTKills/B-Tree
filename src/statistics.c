@@ -19,14 +19,13 @@ void print_list_node(int byteOffset, int size) {
 
 /*Prints linked list graphically*/
 void print_graphical_list(t_files *files, t_list *lists, int op) {
-    int pos = lists[op].head, size = -1, lineLimit = 1, next = -1;
+    int pos = lists[op].head, size = -1, lineLimit = 0, next = -1;
     FILE *fp;
 
     // Choose output file
     switch(op) {
         case BEST:
             fp = files->outputBest;
-            printf("AQUIII\n"); // TODO
             break;
 
         case FIRST:
@@ -64,7 +63,7 @@ void print_graphical_list(t_files *files, t_list *lists, int op) {
 		if (next != INVALID) {
     	    pos = next;
     	    lineLimit++;
-    	    lineLimit %= 10;
+    	    lineLimit %= 2;
    		}
    		
    		else
@@ -201,8 +200,6 @@ void index_stats(t_files *files, t_list *lists) {
 /*Statistics about the removed records*/
 void removed_stats(t_files *files, t_list *lists) {
     int op = -1;
-    
-    fseek(files->outputBest, 0, SEEK_SET);
 
     do {
         op = print_removed_stats_table(lists);
