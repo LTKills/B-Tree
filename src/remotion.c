@@ -240,6 +240,7 @@ void remove_record(t_files *files, t_list *lists) {
 		fclose(files->outputBest);
 		files->outputBest = fopen("best.dat", "r+");
 		lists[BEST].removed++;
+		printf("Ticket %d removed from best.idx with success\n", ticket);
 	}
 	else
 		printf("Ticket was not found in best.idx\n");
@@ -253,6 +254,7 @@ void remove_record(t_files *files, t_list *lists) {
 		fclose(files->outputWorst);
 		files->outputWorst = fopen("worst.dat", "r+");
 		lists[WORST].removed++;
+		printf("Ticket %d removed from worst.idx with success\n", ticket);
 	}
 	else
 		printf("Ticket was not found in worst.idx\n");
@@ -265,6 +267,7 @@ void remove_record(t_files *files, t_list *lists) {
 		fclose(files->outputFirst);
 		files->outputFirst = fopen("first.dat", "r+");
 		lists[FIRST].removed++;
+		printf("Ticket %d removed from first.idx with success\n", ticket);
 	}
 	else
 		printf("Ticket was not found in first.idx\n");
