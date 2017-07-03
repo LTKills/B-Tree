@@ -87,7 +87,7 @@ void insert(t_files *files, t_list *lists) {
     /*Defragment files*/
     if(get_register_size(files->outputFirst, pos) != 0) {
         lists[FIRST].fragmentation++;
-        if(lists[FIRST].fragmentation > 1)
+        if(lists[FIRST].fragmentation > 5)
             lists[FIRST] = defragment(lists[FIRST], files, FIRST);
     }
 
@@ -101,7 +101,7 @@ void insert(t_files *files, t_list *lists) {
     /*Defragment files*/
     if(get_register_size(files->outputFirst, pos) != 0){
         lists[FIRST].fragmentation++;
-        if(lists[FIRST].fragmentation > 1)
+        if(lists[FIRST].fragmentation > 5)
             lists[FIRST] = defragment(lists[FIRST], files, FIRST);
     }
 
@@ -114,7 +114,7 @@ void insert(t_files *files, t_list *lists) {
     /*Defragment files*/
     if(get_register_size(files->outputBest, pos) != 0) {
         lists[BEST].fragmentation++;
-        if(lists[BEST].fragmentation > 1)
+        if(lists[BEST].fragmentation > 5)
             lists[BEST] = defragment(lists[BEST], files, BEST);
     }
 

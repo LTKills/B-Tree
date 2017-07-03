@@ -75,7 +75,7 @@ t_list defragment(t_list list, t_files *files, int op) {
         records[i] = malloc(sizeof(t_record));
 
         read_defrag_record(output, records[i]);
-        print_record(records[i]);
+       // print_record(records[i]);
     }
 
     // Create new file
@@ -87,9 +87,9 @@ t_list defragment(t_list list, t_files *files, int op) {
     for(j = 0; j < i; j++) {
         pos = ftell(output);
         fwrite(&pos, sizeof(int), 1, index);
-        print_record(records[i]);
-        write_output_record(output, records[i]);
-        free_record(records[i]);
+ //       print_record(records[j]);
+        write_output_record(output, records[j]);
+        free_record(records[j]);
     }
 
     list.head = -1;

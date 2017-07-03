@@ -36,8 +36,6 @@ void print_graphical_list(t_files *files, t_list *lists, int op) {
             fp = files->outputWorst;
             break;
 
-        default:
-            printf("WHAT\n"); // TODO
     }
 
     // Go to the given position
@@ -52,8 +50,6 @@ void print_graphical_list(t_files *files, t_list *lists, int op) {
 
     // pos starts at the beginning of the list
     
-    printf("pos is %d and list[first].head is %d\n", pos, lists[op].head);
-
     while (pos != INVALID ) {
         if(lineLimit == 0) printf("\n");
         print_list_node(pos, size);
